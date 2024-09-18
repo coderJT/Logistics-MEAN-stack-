@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/bootstrap.min.css" rel="stylesheet" />
+    <script src="/bootstrap.bundle.min.js"></script>
+    <title>Home</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .bg-orange-200 {
+            background-color: #ffb74d;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
+            <!-- Logo goes here -->
+            <a class="navbar-brand" href="/34279075/Justin">
+                <img src="/images/logo.png" width="120" alt="">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <!-- Home Page -->
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/34279075/Justin">Home</a>
+                    </li>
+
+                    <!-- Dropdown for Drivers -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="driversDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Drivers
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="driversDropdown">
+                            <li><a class="dropdown-item" href="/34279075/Justin/add_driver">Add Driver</a></li>
+                            <li><a class="dropdown-item" href="/34279075/Justin/list_drivers">List Drivers</a></li>
+                            <li><a class="dropdown-item" href="/34279075/Justin/delete_driver">Delete Driver</a></li>
+                            <li><a class="dropdown-item" href="/34279075/Justin/list_drivers_by_department">List Drivers by Department</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Dropdown for Packages -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="packagesDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Packages
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="packagesDropdown">
+                            <li><a class="dropdown-item" href="/34279075/Justin/add_package">Add Package</a></li>
+                            <li><a class="dropdown-item" href="/34279075/Justin/list_packages">List Packages</a></li>
+                            <li><a class="dropdown-item" href="/34279075/Justin/delete_package">Delete Package</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <% if (userLoggedIn) { %>
+                          <a class="nav-link" href="/34279075/Justin/logout">Logout</a>
+                        <% } else { %>
+                          <a class="nav-link" href="/34279075/Justin/login">Login</a>
+                        <% } %>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/34279075/Justin/statistics">Statistics</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="jumbotron jumbotron-fluid d-flex flex-column justify-content-center align-items-center bg-danger" style="height: 100vh;">
+            <h1 class="text-white mb-4 display-1">Oops.<br> Invalid data detected</h1>
+            <a href="/" class="btn btn-light text-danger mt-2">Return to homepage</a>
+        </div> 
+    </main>
+    <footer>
+        <div class="container-fluid bg-orange-200 p-5">
+            <div class="row">
+                <div class="col-sm">
+                    <img src="/images/logo.png" width="200">
+                    <hr>
+                    <p class="text-left text-white">Justin Tan | 34279075</p>
+                </div>
+                <div class="col-sm">
+                    <b class="text-white">About Us</b>
+                    <hr>
+                    <p>
+                        We are renowned for our punctuality and reliability, ensuring every delivery arrives on time
+                        with unmatched precision. Our commitment to timely service and dependable performance makes us a
+                        trusted choice for all your logistical needs.
+                    </p>
+                </div>
+                <div class="col-sm">
+                    <b class="text-white">Contact Us</b>
+                    <hr>
+                    <ul class="list-unstyled">
+                        <li>Email: justin@yahoo.com</li>
+                        <li>Phone: +1233567890</li>
+                        <li>Address: Monash University Australia, Clayton</li>
+                    </ul>
+                </div>
+            </div>
+    </footer>
+</body>
+
+</html>
