@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { HomepageComponent } from './homepage/homepage.component';
 import { AddDriverComponent } from './add-driver/add-driver.component';
 import { ListDriversComponent } from './list-drivers/list-drivers.component';
 import { DeleteDriverComponent } from './delete-driver/delete-driver.component';
@@ -12,6 +13,7 @@ import { InvalidDataComponent } from './invalid-data/invalid-data.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export const routes: Routes = [
+    { path: "", component: HomepageComponent},
     { path: 'add-driver', component: AddDriverComponent },
     { path: 'list-drivers', component: ListDriversComponent },
     { path: 'delete-driver', component: DeleteDriverComponent },
