@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
     <!-- Logo goes here -->
-    <a class="navbar-brand" href="/34279075/Justin">
+    <a class="navbar-brand" routerLink="/">
         <img src="/images/logo.png" width="120" alt="">
     </a>
 
@@ -14,7 +14,7 @@
         <ul class="navbar-nav mr-auto">
             <!-- Home Page -->
             <li class="nav-item active">
-                <a class="nav-link" href="/34279075/Justin">Home</a>
+                <a class="nav-link" routerLink="/">Home</a>
             </li>
 
             <!-- Dropdown for Drivers -->
@@ -24,11 +24,11 @@
                     Drivers
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="driversDropdown">
-                    <li><a class="dropdown-item" href="/34279075/Justin/add_driver">Add Driver</a></li>
-                    <li><a class="dropdown-item" href="/34279075/Justin/list_drivers">List Drivers</a></li>
-                    <li><a class="dropdown-item" href="/34279075/Justin/delete_driver">Delete Driver</a></li>
-                    <li><a class="dropdown-item" href="/34279075/Justin/list_drivers_by_department">List Drivers by
-                            Department</a></li>
+                    <li><a class="dropdown-item" routerLink="/add-driver">Add Driver</a></li>
+                    <li><a class="dropdown-item" routerLink="/list_drivers">List Drivers</a></li>
+                    <li><a class="dropdown-item" routerLink="/delete_driver">Delete Driver</a></li>
+                    <li><a class="dropdown-item" routerLink="/list_drivers_by_department">List Drivers by Department</a>
+                    </li>
                 </ul>
             </li>
 
@@ -39,20 +39,23 @@
                     Packages
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="packagesDropdown">
-                    <li><a class="dropdown-item" href="/34279075/Justin/add_package">Add Package</a></li>
-                    <li><a class="dropdown-item" href="/34279075/Justin/list_packages">List Packages</a></li>
-                    <li><a class="dropdown-item" href="/34279075/Justin/delete_package">Delete Package</a></li>
+                    <li><a class="dropdown-item" routerLink="/add-package">Add Package</a></li>
+                    <li><a class="dropdown-item" routerLink="/list_packages">List Packages</a></li>
+                    <li><a class="dropdown-item" routerLink="/delete_package">Delete Package</a></li>
                 </ul>
             </li>
             <li class="nav-item">
-                <a *ngIf="userLoggedIn" class="nav-link" href="/logout">Logout</a>
-                <a *ngIf="!userLoggedIn" class="nav-link" href="/login">Login</a>
+                @if(userLoggedIn) {
+                    <a class="nav-link" routerLink="/logout">Logout</a>
+                } 
+                @else {
+                    <a class="nav-link" routerLink="/login">Login</a>
+                }
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/34279075/Justin/statistics">Statistics</a>
+                <a class="nav-link" routerLink="/statistics">Statistics</a>
             </li>
         </ul>
-
     </div>
 </nav>
