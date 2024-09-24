@@ -53,9 +53,9 @@ const PORT_NUMBER = 8080;
 /**
  * Connect to MongoDB and start the server.
  * Switch address to mongodb://localhost:27017/pdma if testing locally and mongo vm 
- * is not started.
+ * is not started
  */
-mongoose.connect('mongodb://34.129.239.38:27017/pdma')
+mongoose.connect('mongodb://localhost:27017/pdma')
     .then(() => {
         app.listen(PORT_NUMBER, () => {
             console.log(`Server is running on port ${PORT_NUMBER}`);
@@ -129,16 +129,24 @@ app.use('/34279075/Justin', authenticationRoutes);
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
-app.get('/34279075/Justin/statistics', checkAuthentication, async (req, res) => {
-    const countersSnapshot = await db.collection('crud').doc('operationCount').get();
-    const data = countersSnapshot.data();
+app.get('/api/v1/statistics', checkAuthentication, async (req, res) => {
+    try {
+        const countersSnapshot = await db.collection('crud').doc('operationCount').get();
+        const data = countersSnapshot.data();
 
-    res.render('statistics', {
-        userLoggedIn: !!req.session.user,
-        createCount: data.createCount, 
-        readCount: data.readCount, 
-        updateCount: data.updateCount, 
-        deleteCount: data.deleteCount});
+        if (!data) {
+            return res.status(404).json({ error: 'Statistics data not found' });
+        }
+
+        res.json({
+            createCount: data.createCount,
+            readCount: data.readCount,
+            updateCount: data.updateCount,
+            deleteCount: data.deleteCount
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to retrieve statistics: ' + err.message });
+    }
 });
 
 /**
