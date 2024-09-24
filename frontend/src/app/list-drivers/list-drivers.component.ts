@@ -1,12 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { DriverService } from '../driver.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-drivers',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './list-drivers.component.html',
-  styleUrl: './list-drivers.component.css'
+  styleUrls: ['./list-drivers.component.css']
 })
-export class ListDriversComponent {
+export class ListDriversComponent implements OnInit {
+  drivers: any[] = [];
 
+  constructor(private driverDB: DriverService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.loadDrivers();
+  }
+
+  loadDrivers() {
+    this.driverDB.getDrivers().subscribe(
+      (response: any) => {
+        this.drivers = response.drivers;
+      },
+      error => {
+        console.error('Failed to load drivers:', error);
+      }
+    );
+  }
+
+  deleteDriver(driverId: string) {
+    if (driverId) {
+      this.driverDB.removeDriver(driverId).subscribe(
+        (response: any) => {
+          if (response.deletedCount > 0) {
+            this.loadDrivers();
+          } else {
+            this.router.navigate(['/invalid_data']);
+          }
+        },
+        error => {
+          this.router.navigate(['/invalid_data']);
+        }
+      );
+    }
+  }
 }

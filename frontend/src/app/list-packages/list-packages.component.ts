@@ -1,12 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { PackageService } from '../package.service'; // Ensure this service exists
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-packages',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './list-packages.component.html',
-  styleUrl: './list-packages.component.css'
+  styleUrls: ['./list-packages.component.css']
 })
-export class ListPackagesComponent {
+export class ListPackagesComponent implements OnInit {
+  packages: any[] = [];
 
+  constructor(private packageService: PackageService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.loadPackages();
+  }
+
+  loadPackages() {
+    this.packageService.getPackages().subscribe(
+      (response: any) => {
+        this.packages = response.packages;
+      },
+      error => {
+        console.error('Failed to load packages:', error);
+      }
+    );
+  }
+
+  deletePackage(packageId: string) {
+    if (packageId) {
+      this.packageService.removePackage(packageId).subscribe(
+        (response: any) => {
+          if (response.deletedCount > 0) {
+            this.loadPackages();
+          } else {
+            this.router.navigate(['/invalid_data']);
+          }
+        },
+        error => {
+          this.router.navigate(['/invalid_data']);
+        }
+      );
+    }
+  }
 }
