@@ -1,1 +1,19 @@
-<p>delete-package works!</p>
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card shadow-lg" style="width: 50vw;">
+      <div class="card-header bg-primary text-white">
+        <h2 class="text-center">Select Package to be Deleted</h2>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="deletePackage()">
+          <div class="form-group">
+            <label for="packageID" class="form-label fw-bold text-primary">Package ID:</label>
+            <input type="text" class="form-control" id="packageID" name="package_id" required [(ngModel)]="package._id">
+          </div>
+          <div class="text-center">
+            <input class="btn btn-primary m-3" type="submit" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
