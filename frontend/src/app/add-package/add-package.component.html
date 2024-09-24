@@ -21,14 +21,14 @@
                     <label for="package_destination" class="form-label fw-bold text-primary">Package
                         Destination:</label>
                     <input type="text" class="form-control" id="package_destination" name="package_destination" [(ngModel)]="package.package_destination"
-                        minlength="5" , maxlength="15" , required>
+                        minlength="5" maxlength="15" required>
                 </div>
 
                 <div class="form-group mt-4">
                     <label for="package_description" class="form-label fw-bold text-primary">Package
                         Description:</label>
                     <textarea class="form-control" id="package_description" name="package_description" [(ngModel)]="package.package_description"
-                        minlength="0" , maxlength="30"></textarea>
+                        minlength="0" maxlength="30"></textarea>
                 </div>
 
                 <div class="form-group mt-4">
@@ -48,10 +48,11 @@
                 <div class="form-group mt-4">
                     <label for="_id" class="form-label fw-bold text-primary">Driver:</label>
                     <select class="form-control" id="_id" name="driver_mongoose_id" [(ngModel)]="package.driver_mongoose_id" required>
-                        <option value="" disabled selected>Select a driver</option>
-                        <option *ngFor="let driver of drivers" [ngValue]="driver._id">{{ driver.driver_id }} - {{ driver.driver_name }}</option>
+                      <option value="" disabled selected>Select a driver</option>
+                      <option *ngFor="let driver of drivers" [ngValue]="driver._id">{{ driver.driver_id }} - {{ driver.driver_name }}</option>
                     </select>
                 </div>
+                  
                 
                 <div class="text-center">
                     <button class="btn btn-primary mt-4 m-3" type="submit" [disabled]="!package.driver_mongoose_id">Submit</button>
