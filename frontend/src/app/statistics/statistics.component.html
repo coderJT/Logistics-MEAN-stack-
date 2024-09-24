@@ -1,1 +1,35 @@
-<p>statistics works!</p>
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card shadow-lg" style="width: 70vw;">
+        <div class="card-header bg-primary text-white">
+            <h2 class="text-center">Statistics</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <h5 class="card-title">Create:</h5>
+                    <p class="card-text">
+                        {{ createCount }}
+                    </p>
+                </div>
+                <div class="col">
+                    <h5 class="card-title">Read:</h5>
+                    <p class="card-text">
+                        {{ readCount }}
+                    </p>
+                </div>
+                <div class="col">
+                    <h5 class="card-title">Update:</h5>
+                    <p class="card-text">
+                        {{ updateCount }}
+                    </p>
+                </div>
+                <div class="col">
+                    <h5 class="card-title">Delete:</h5>
+                    <p class="card-text">
+                        {{ deleteCount }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
