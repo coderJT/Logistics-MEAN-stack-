@@ -14,13 +14,16 @@ import { Driver } from '../models/driver';
 export class DeleteDriverComponent {
 
   driver = { _id: '' }; 
-  drivers: Driver[] = [];
+  drivers: any[] = [];
 
   constructor(private driversDB: DriverService, private router: Router) {}
 
   ngOnInit(): void {
     this.driversDB.getDrivers().subscribe((data: any) => {
-      this.drivers = data;
+      for (let driver of data) {
+        this.drivers.push(driver);
+      }
+      console.log(this.drivers);
     })
   }
 
