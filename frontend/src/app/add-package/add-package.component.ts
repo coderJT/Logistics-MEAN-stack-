@@ -4,11 +4,12 @@ import { DriverService } from '../driver.service';
 import { PackageService } from '../package.service';
 import { Router } from "@angular/router";
 import { Package } from '../models/package';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-package',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './add-package.component.html',
   styleUrl: './add-package.component.css'
 })
@@ -20,8 +21,11 @@ export class AddPackageComponent {
   constructor(private driversDB: DriverService, private packagesDB: PackageService, private router: Router) { }
 
   ngOnInit(): void {
-    this.driversDB.getDrivers().subscribe((data: any) => {
-      this.drivers = data;
+    this.driversDB.getDrivers().subscribe((response: any) => {
+      for (let driver of response) {
+        this.drivers.push(driver);
+      }
+      console.log(this.drivers);
     })
   }
 

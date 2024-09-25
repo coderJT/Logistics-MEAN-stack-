@@ -49,11 +49,13 @@
                     <label for="_id" class="form-label fw-bold text-primary">Driver:</label>
                     <select class="form-control" id="_id" name="driver_mongoose_id"
                         [(ngModel)]="package.driver_mongoose_id" required>
-                        <option value="" disabled selected>Select a driver</option>
-                        <option *ngFor="let driver of drivers" [ngValue]="driver._id">{{ driver.driver_id }} - {{
-                            driver.driver_name }}</option>
+                        <option value="" disabled>Select a driver</option>
+                        <option *ngFor="let driver of drivers" [ngValue]="driver._id">
+                            {{ driver.driver_id }} - {{ driver.driver_name }}
+                        </option>
                     </select>
                 </div>
+                
 
 
                 <div class="text-center">
