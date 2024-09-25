@@ -19,6 +19,6 @@ export class AddDriverComponent {
 
   addDriver() {
     this.driversDB.addDriver(this.driver);
-    this.router.navigate(['list_drivers']);
+    this.router.navigate(['list-drivers']);
   }
 }
