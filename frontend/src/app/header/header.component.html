@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
     <!-- Logo goes here -->
     <a class="navbar-brand" routerLink="/">
-        <img src="/images/logo.png" width="120" alt="">
+        <img src="/logo.png" width="120" alt="">
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -25,9 +25,9 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="driversDropdown">
                     <li><a class="dropdown-item" routerLink="/add-driver">Add Driver</a></li>
-                    <li><a class="dropdown-item" routerLink="/list_drivers">List Drivers</a></li>
-                    <li><a class="dropdown-item" routerLink="/delete_driver">Delete Driver</a></li>
-                    <li><a class="dropdown-item" routerLink="/list_drivers_by_department">List Drivers by Department</a>
+                    <li><a class="dropdown-item" routerLink="/list-drivers">List Drivers</a></li>
+                    <li><a class="dropdown-item" routerLink="/delete-driver">Delete Driver</a></li>
+                    <li><a class="dropdown-item" routerLink="/list-drivers-by-department">List Drivers by Department</a>
                     </li>
                 </ul>
             </li>
@@ -43,10 +43,11 @@
                     <li><a class="dropdown-item" routerLink="/list-packages">List Packages</a></li>
                     <li><a class="dropdown-item" routerLink="/delete-package">Delete Package</a></li>
                 </ul>
+                
             </li>
             <li class="nav-item">
                 @if(userLoggedIn) {
-                    <a class="nav-link" routerLink="/logout">Logout</a>
+                    <a class="nav-link" (click)="logout()">Logout</a>
                 } 
                 @else {
                     <a class="nav-link" routerLink="/login">Login</a>
@@ -59,3 +60,4 @@
         </ul>
     </div>
 </nav>
+
