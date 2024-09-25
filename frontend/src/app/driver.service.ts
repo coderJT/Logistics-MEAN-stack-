@@ -1,40 +1,43 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AuthenticationService } from './authentication.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-
-// const httpOptions = {
-//   headers: new HttpHeaders({
-//     'Content-Type': 'application/json'
-//   })
-// }
-
 export class DriverService {
-  
+
   private apiUrl = 'http://localhost:8080/api/v1/drivers';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authentication: AuthenticationService) { }
 
-  getDrivers() {
-    return this.http.get(this.apiUrl);
-  } 
-
-  addDriver(driver: any) {
-    return this.http.post(this.apiUrl, driver);
+  private getHeaders(): HttpHeaders {
+    return this.authentication.setAuthHeaders();
   }
 
-  updateDriver(driverInfo: any) {
-    return this.http.put(`${this.apiUrl}/`, driverInfo);
+  getDrivers(): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.get<any>(this.apiUrl, { headers });
   }
 
-  removeDriver(id: string) {
-    return this.http.delete(`${this.apiUrl}/?_id=${id}`);
+  addDriver(driver: any): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.post<any>(this.apiUrl, driver, { headers });
   }
 
-  getDriversByDepartment(driver_department: string) {
-    return this.http.get(`${this.apiUrl} + /department/${driver_department}`);
+  updateDriver(driverId: string, driverInfo: any): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.put<any>(`${this.apiUrl}/${driverId}`, driverInfo, { headers });
   }
 
+  removeDriver(driverId: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.delete<any>(`${this.apiUrl}/${driverId}`, { headers });
+  }
+
+  getDriversByDepartment(department: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.get<any>(`${this.apiUrl}/department/${department}`, { headers });
+  }
 }
