@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class ListDriversByDepartmentComponent {
 
-  drivers: Driver[] = [];
+  drivers: any[] = [];
   driver = { driver_department: "" }
 
   constructor(private driversDB: DriverService, private router: Router) { }
@@ -21,8 +21,12 @@ export class ListDriversByDepartmentComponent {
 
   loadDrivers() {
     if (this.driver.driver_department) {
+      this.drivers = [];
       this.driversDB.getDriversByDepartment(this.driver.driver_department).subscribe((response: any) => {
-        this.drivers = response.drivers;
+        console.log(response)
+        for (let driver of response) {
+          this.drivers.push(driver);
+        }
       })
     }
   }

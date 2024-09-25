@@ -22,7 +22,11 @@ export class ListDriversComponent implements OnInit {
   loadDrivers() {
     this.driversDB.getDrivers().subscribe(
       (response: any) => {
-        this.drivers = response.drivers;
+        for (let driver of response) {
+          this.drivers.push(driver);
+          console.log(this.drivers)
+        }
+        console.log(response);
       },
       error => {
         console.error("Failed to load drivers:", error)

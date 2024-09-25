@@ -22,7 +22,9 @@ export class ListPackagesComponent implements OnInit {
   loadPackages() {
     this.packageService.getPackages().subscribe(
       (response: any) => {
-        this.packages = response.packages;
+        for (let packageObj of response) {
+          this.packages.push(packageObj);
+        }
       },
       error => {
         console.error('Failed to load packages:', error);

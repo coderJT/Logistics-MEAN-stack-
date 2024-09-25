@@ -8,9 +8,12 @@
         <option value="Furniture">Furniture</option>
         <option value="Electronic">Electronic</option>
       </select>
+       <button type="submit" class="btn btn-primary mt-2">Load Drivers</button>
     </form>
+  
     <div class="container p-3 text-center flex-fill" style="height: 100vh;">
       <div style="max-height: 80vh; overflow-y: auto;">
+        @if (drivers && drivers.length > 0) {
         <table class="table table-striped table-bordered" style="table-layout: fixed; width: 100%;">
           <thead>
             <tr>
@@ -58,12 +61,15 @@
                 </form>
               </td>
             </tr>
-        }
+            }
           </tbody>
         </table>
-        <div class="alert alert-info mt-3" role="alert" *ngIf="drivers.length === 0">
+        }
+        @else {
+        <div class="alert alert-info mt-3" role="alert">
           No drivers available for the selected department.
         </div>
+        }
       </div>
     </div>
   </div>
