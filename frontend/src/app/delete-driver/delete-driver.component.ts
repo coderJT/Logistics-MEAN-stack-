@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DriverService } from '../driver.service';
 import { Router } from '@angular/router';
+import { Driver } from '../models/driver';
 
 @Component({      
   selector: 'app-delete-driver',
@@ -13,18 +14,24 @@ import { Router } from '@angular/router';
 export class DeleteDriverComponent {
 
   driver = { _id: '' }; 
+  drivers: Driver[] = [];
 
-  constructor(private driverDB: DriverService, private router: Router) {}
+  constructor(private driversDB: DriverService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.driversDB.getDrivers().subscribe((data: any) => {
+      this.drivers = data;
+    })
+  }
 
   deleteDriver() {
-    const driverId = this.driver._id;
-    if (driverId) {
-     this.driverDB.removeDriver(driverId).subscribe(
+    if (this.driver._id) {
+     this.driversDB.removeDriver(this.driver._id).subscribe(
         (response: any) => {
           if (response.deletedCount > 0) {
-            this.router.navigate(['/list_drivers']);
+            this.router.navigate(['list_drivers']);
           } else {
-            this.router.navigate(['/invalid_data']);
+            this.router.navigate(['invalid_data']);
           }
         },
         error => {

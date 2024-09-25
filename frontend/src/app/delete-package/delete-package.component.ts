@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PackageService } from '../package.service';
 import { Router } from "@angular/router";
+import { Package } from '../models/package';
 
 @Component({
   selector: 'app-delete-package',
@@ -13,23 +14,28 @@ import { Router } from "@angular/router";
 export class DeletePackageComponent {
 
   package = { _id: '' };
+  packages: Package[] = [];
 
-  constructor(private packageDB: PackageService, private router: Router) { } 
+  constructor(private packagesDB: PackageService, private router: Router) { } 
 
+  ngOnInit(): void {
+    this.packagesDB.getPackages().subscribe((data: any) => {
+      this.packages = data;
+    })
+  }
 
   deletePackage() {
-    const packageId = this.package._id;
-    if (packageId) {
-     this.packageDB.removePackage(packageId).subscribe(
+    if (this.package._id) {
+     this.packagesDB.removePackage(this.package._id).subscribe(
         (response: any) => {
           if (response.deletedCount > 0) {
-            this.router.navigate(['/list_packages']);
+            this.router.navigate(['list_packages']);
           } else {
-            this.router.navigate(['/invalid_data']);
+            this.router.navigate(['invalid_data']);
           }
         },
         error => {
-          this.router.navigate(['/invalid_data']);
+          this.router.navigate(['invalid_data']);
         }
       );
     }

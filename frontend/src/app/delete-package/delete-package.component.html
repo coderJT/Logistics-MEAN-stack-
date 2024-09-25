@@ -7,7 +7,12 @@
         <form (ngSubmit)="deletePackage()">
           <div class="form-group">
             <label for="packageID" class="form-label fw-bold text-primary">Package ID:</label>
-            <input type="text" class="form-control" id="packageID" name="package_id" required [(ngModel)]="package._id">
+            <select class="form-control" id="package_mongoose_id" name="package_mongoose_id" required [(ngModel)]="package._id">
+              <option value="" disabled selected>Select a package</option>
+              <option *ngFor="let package of packages" [ngValue]="package._id">
+                  {{ package.package_id }} - {{ package.package_name }}
+              </option>
+          </select>
           </div>
           <div class="text-center">
             <input class="btn btn-primary m-3" type="submit" value="Submit">

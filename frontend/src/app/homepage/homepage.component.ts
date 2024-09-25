@@ -13,7 +13,7 @@ export class HomepageComponent {
   drivers: any[] = [];
   packages: any[] = [];
 
-  constructor(private driverDB: DriverService, private packageDB: PackageService) {}
+  constructor(private driversDB: DriverService, private packagesDB: PackageService) {}
 
   ngOnInit(): void {
     this.loadDrivers();
@@ -21,7 +21,7 @@ export class HomepageComponent {
   }
 
   loadDrivers() {
-    this.driverDB.getDrivers().subscribe(
+    this.driversDB.getDrivers().subscribe(
       (response: any) => {
         this.drivers = response.drivers;
       },
@@ -32,7 +32,7 @@ export class HomepageComponent {
   }
 
   loadPackages() {
-    this.packageDB.getPackages().subscribe(
+    this.packagesDB.getPackages().subscribe(
       (response: any) => {
         this.packages = response.packages;
       },

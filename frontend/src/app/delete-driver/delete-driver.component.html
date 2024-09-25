@@ -6,9 +6,14 @@
         <div class="card-body">
             <form (ngSubmit)="deleteDriver()">
                 <div class="form-group">
-                    <label for="driverID" class="form-label fw-bold text-primary">Driver ID:</label>
-                    <input type="text" class="form-control" id="driverID" name="driver_id" required [(ngModel)]="driver._id">
-                </div> 
+                    <label for="driver_mongoose_id" class="form-label fw-bold text-primary">Driver ID:</label>
+                    <select class="form-control" id="driver_mongoose_id" name="driver_mongoose_id" required [(ngModel)]="driver._id">
+                        <option value="" disabled selected>Select a driver</option>
+                        <option *ngFor="let driver of drivers" [ngValue]="driver._id">
+                            {{ driver.driver_id }} - {{ driver.driver_name }}
+                        </option>
+                    </select>
+                </div>
                 <div class="text-center">
                     <input class="btn btn-primary m-3" type="submit" value="Submit">
                 </div>

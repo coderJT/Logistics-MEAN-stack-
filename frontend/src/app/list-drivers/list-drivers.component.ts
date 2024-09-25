@@ -13,35 +13,35 @@ import { Router } from '@angular/router';
 export class ListDriversComponent implements OnInit {
   drivers: any[] = [];
 
-  constructor(private driverDB: DriverService, private router: Router) {}
+  constructor(private driversDB: DriverService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadDrivers();
   }
 
   loadDrivers() {
-    this.driverDB.getDrivers().subscribe(
+    this.driversDB.getDrivers().subscribe(
       (response: any) => {
         this.drivers = response.drivers;
       },
       error => {
-        console.error('Failed to load drivers:', error);
+        console.error("Failed to load drivers:", error)
       }
-    );
+    )
   }
 
   deleteDriver(driverId: string) {
     if (driverId) {
-      this.driverDB.removeDriver(driverId).subscribe(
+      this.driversDB.removeDriver(driverId).subscribe(
         (response: any) => {
           if (response.deletedCount > 0) {
             this.loadDrivers();
           } else {
-            this.router.navigate(['/invalid_data']);
+            this.router.navigate(['invalid_data']);
           }
         },
         error => {
-          this.router.navigate(['/invalid_data']);
+          this.router.navigate(['invalid_data']);
         }
       );
     }
