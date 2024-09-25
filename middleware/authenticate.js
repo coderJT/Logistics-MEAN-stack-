@@ -6,24 +6,8 @@
  * @module middleware/authenticate
  */
 
-/**
- * Middleware function to check user authentication.
- * 
- * This function checks whether the `req.session.user` exists. If it does, the request proceeds to the next middleware 
- * or route handler. If not, the user is redirected to the login page.
- * 
- * @function
- * @param {Object} req - Express request object. Contains the session data.
- * @param {Object} res - Express response object. Used to redirect unauthenticated users.
- * @param {Function} next - Function to pass control to the next middleware or route handler if authenticated.
- */
-function checkAuthentication(req, res, next) {
-  if (req.session.user) {
-      next(); 
-  } else {
-      res.redirect('/34279075/Justin/login');
-  }
-}
+const jwt = require('jsonwebtoken');
+const JWT_KEY = "secret_key_in_env"; // remove later
 
 /**
  * Middleware function to check user authentication through API.
@@ -36,14 +20,24 @@ function checkAuthentication(req, res, next) {
  * @param {Object} res - Express response object. Used to redirect unauthenticated users.
  * @param {Function} next - Function to pass control to the next middleware or route handler if authenticated.
  */
-function checkAuthenticationAPI(req, res, next) {
-  if (req.session.user) {
-      next(); 
-  } else {
-      res.json({
-        status: "Not authenticated."
-      })
+const checkAuthenticationAPI = (req, res, next) => {
+  const token = req.headers['authorization']?.split(' ')[1];
+
+  if (!token) {
+    return res.status(403).json({
+      error:"No token provided",
+    });
   }
+  
+  jwt.verify(token, JWT_KEY, (err, decoded) => {
+    if (err) {
+      return res.status(401).status({
+        error: "Unauthorized. Please login."
+      });
+    }
+    req.username = decoded.username;
+    next();
+  })
 }
 
-module.exports = {checkAuthentication, checkAuthenticationAPI};
+module.exports = {checkAuthenticationAPI};
