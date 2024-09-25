@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
@@ -27,12 +28,12 @@ export class SignupComponent {
       password: this.password,
     }
 
-    this.authService.login(credentials).subscribe(
+    this.authService.signUp(credentials).subscribe(
       (response: any) => {
         this.router.navigate(['/login']);
       },
       error => {
-        console.error('Failed to login:', error);
+        console.error('Failed to signup:', error);
       }
     )
   }
