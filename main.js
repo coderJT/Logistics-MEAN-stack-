@@ -6,7 +6,6 @@
  * necessary CRUD operations for both drivers and packages.
  * 
  * @requires express - Handles server creation and routing.
- * @requires ejs - Used to render EJS templates.
  * @requires path - For handling file paths.
  * @requires mongoose - ODM library to interact with MongoDB.
  * @requires routes/driverRoutes - Routes for driver-related operations.
@@ -32,23 +31,31 @@ const db = admin.firestore();
 /**
  * Import of necessary libraries and modules.
  */
+const cors = require('cors');
 const express = require('express');
-const ejs = require('ejs');
 const path = require('path');
 const mongoose = require('mongoose');
 const driverRoutes = require("./routes/driverRoutes");
 const packagesRoutes = require("./routes/packageRoutes");
 const authenticationRoutes = require('./routes/authenticationRoutes');
 const session = require('express-session');
-const Driver = require('./models/driver');
-const Package = require('./models/package');
-const { checkAuthentication } = require('./middleware/authenticate');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const { checkAuthenticationAPI } = require('./middleware/authenticate');
+
+const JWT_KEY = "secret_key_in_env";
 
 /**
  * Express app setup.
  */
 const app = express();
 const PORT_NUMBER = 8080; 
+
+app.use(cors({
+    origin: 'http://localhost:4200',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true 
+}));
 
 /**
  * Connect to MongoDB and start the server.
@@ -85,40 +92,66 @@ app.use(express.static("node_modules/bootstrap/dist/js"));
 /**
  * EJS templating setup.
  */
-app.engine('html', ejs.renderFile);
-app.set('view engine', 'html');
 
-/**
- * GET method for handling the home page and redirect.
- * 
- * @description Renders the home page or redirects to the main page if accessed from the root URL.
- * 
- * @function
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
- */
-app.get(['/', '/34279075/Justin'], async (req, res) => {
+const generateJWTToken = (username) => {
+    return jwt.sign({ username }, JWT_KEY, {expiresIn: '24h'});
+}
+
+app.post('/api/v1/signup', async (req, res) => {
+    const { username, password, confirmPassword } = req.body;
+
+    if (password != confirmPassword) {
+        return res.status(400).json({ error: "Passwords provided do not match" });
+    }
+
     try {
-        const driversList = await Driver.find(); 
-        const packagesList = await Package.find(); 
-
-        res.render('index', { 
-            drivers: driversList, 
-            packages: packagesList, 
-            userLoggedIn: !!req.session.user, 
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await db.collection('users').doc(username).set({
+            username,
+            password: hashedPassword
         });
 
+        res.json({ message: "User signed up successfully." });
     } catch (error) {
-        res.status(500).send('Error fetching drivers');
+        res.status(500).json({ error: "Error during signup: " + error.message });
     }
-});
+})
+
+app.post('/api/v1/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        const userDoc = await db.collection('users').doc(username).get();
+        if(!userDoc.exists){
+            return res.status(404).json({error: "User not found."});
+        }
+
+        const userData = userDoc.data();
+        const isMatch = await bcrypt.compare(password, userData.password);
+
+        if (!isMatch) {
+            return res.status(401).json({ error: "Incorrect password given. Please try again." });
+        }
+
+        const token = generateJWTToken(username);
+
+        res.json({
+            message: "Logged in successfully.", token
+        })
+    } catch (error) {
+        res.status(500).json({
+            error: "Error during login:" + error.message
+        });
+    }
+})
+
 
 /**
  * Use driver, packages and authentication routes.
  */
-app.use('/34279075/Justin', driverRoutes);
-app.use('/34279075/Justin', packagesRoutes);
-app.use('/34279075/Justin', authenticationRoutes);
+app.use('/', driverRoutes);
+app.use('/', packagesRoutes);
+// app.use('/', authenticationRoutes);
 
 /**
  * GET method for rendering statistics about CRUD operations.
@@ -129,7 +162,7 @@ app.use('/34279075/Justin', authenticationRoutes);
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
-app.get('/api/v1/statistics', checkAuthentication, async (req, res) => {
+app.get('/api/v1/statistics', checkAuthenticationAPI, async (req, res) => {
     try {
         const countersSnapshot = await db.collection('crud').doc('operationCount').get();
         const data = countersSnapshot.data();
@@ -147,35 +180,5 @@ app.get('/api/v1/statistics', checkAuthentication, async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: 'Failed to retrieve statistics: ' + err.message });
     }
-});
-
-/**
- * GET method for handling invalid data.
- * 
- * @description Renders a message stating invalid data.
- * 
- * @function
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
- */
-app.get('/34279075/Justin/invalid_data', async (req, res) => {
-    res.render('invalid_data', {
-        userLoggedIn: !!req.session.user
-    });
-});
-
-/**
- * GET method for handling invalid routes.
- * 
- * @description Renders a message stating invalid route.
- * 
- * @function
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
- */
-app.use(async (req, res) => {
-    res.render('404', {
-        userLoggedIn: !!req.session.user,
-    });
 });
 
