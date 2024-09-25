@@ -1,4 +1,5 @@
 export class Package {
+    _id: string;
     package_id?: string;
     package_title: string;
     package_weight: number;
@@ -8,6 +9,7 @@ export class Package {
     driver_mongoose_id?: string;
 
     constructor() {
+        this._id = "";
         this.package_id = "";
         this.package_title = "";
         this.package_weight = 0;
