@@ -31,7 +31,7 @@ export class StatisticsComponent implements OnInit {
       },
       error => {
         console.error('Failed to load statistics:', error);
-        this.router.navigate(['/invalid_data']); 
+        this.router.navigate(['invalid_data']); 
       }
     );
   }
