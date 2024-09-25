@@ -11,11 +11,13 @@ import { UpdatePackageComponent } from './update-package/update-package.componen
 import { StatisticsComponent } from './statistics/statistics.component';
 import { InvalidDataComponent } from './invalid-data/invalid-data.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ListDriversByDepartmentComponent } from './list-drivers-by-department/list-drivers-by-department.component';
 
 export const routes: Routes = [
     { path: "", component: HomepageComponent},
     { path: 'add-driver', component: AddDriverComponent },
     { path: 'list-drivers', component: ListDriversComponent },
+    { path: 'list-drivers-by-department', component: ListDriversByDepartmentComponent },
     { path: 'delete-driver', component: DeleteDriverComponent },
     { path: 'update-driver', component: UpdateDriverComponent },
     { path: 'add-package', component: AddPackageComponent },
