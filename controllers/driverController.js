@@ -52,6 +52,28 @@ module.exports = {
     },
 
     /**
+     * Controller method that retrieves all available drivers by department.
+     * 
+     * @description This method queries the database for all drivers based on the department given and then populate them with their assigned packages.
+     * @description Read counter will increase by 1 for this operation.
+     * 
+     * @async
+     * @function getAll
+     * @param {Object} req - Express request object.
+     * @param {Object} res - Express response object.
+     */
+    getDriversByDepartment: async function (req, res) {
+        try {
+            let drivers = await Driver.find({ driver_department: req.params.driver_department }).populate('assigned_packages').exec();
+            await incrementRead();
+
+            res.json(drivers);
+        } catch (err) {
+            res.status(500).json({ error: "Failed to get all drivers by department " + err.message })
+        }
+    },
+
+    /**
      * Controller method that creates a new driver.
      * @description This method will take request body and create a new driver from it. 
      * @description Driver ID will be generated.
