@@ -23,7 +23,9 @@ export class HomepageComponent {
   loadDrivers() {
     this.driversDB.getDrivers().subscribe(
       (response: any) => {
-        this.drivers = response.drivers;
+        for (let driver of response) {
+          this.drivers.push(driver);
+        }
       },
       error => {
         console.error('Failed to load drivers:', error);
@@ -34,7 +36,9 @@ export class HomepageComponent {
   loadPackages() {
     this.packagesDB.getPackages().subscribe(
       (response: any) => {
-        this.packages = response.packages;
+       for (let packageObj of response) {
+         this.packages.push(packageObj);
+       }
       },
       error => {
         console.error('Failed to load drivers:', error);
