@@ -26,7 +26,7 @@
                     <td class="text-break">{{ driver.driver_license }}</td>
                     <td class="text-break">{{ driver.driver_is_active ? 'Yes' : 'No' }}</td>
                     <td class="text-break">{{ driver.created_at }}</td>
-                    <td class="text-break">{{ driver.assigned_packages.join(', ') }}</td>
+                    <td class="text-break">{{ getAssignedPackageIds(driver.assigned_packages) }}</td>
                     <td>
                         <button class="btn btn-danger" (click)="deleteDriver(driver._id)">Delete</button>
                     </td>

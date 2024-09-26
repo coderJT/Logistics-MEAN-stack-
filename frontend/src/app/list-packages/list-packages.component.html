@@ -28,7 +28,7 @@
                     <td class="text-break">{{ package.created_at }}</td>
                     <td class="text-break">{{ package.is_allocated ? 'Yes' : 'No' }}</td>
                     <td>
-                        <button class="btn btn-danger" (click)="deletePackage(package.package_id)">Delete</button>
+                        <button class="btn btn-danger" (click)="deletePackage(package._id)">Delete</button>
                     </td>
                 </tr>
                 }

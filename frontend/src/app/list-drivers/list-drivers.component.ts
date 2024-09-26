@@ -20,13 +20,12 @@ export class ListDriversComponent implements OnInit {
   }
 
   loadDrivers() {
+    this.drivers = [];
     this.driversDB.getDrivers().subscribe(
       (response: any) => {
         for (let driver of response) {
           this.drivers.push(driver);
-          console.log(this.drivers)
         }
-        console.log(response);
       },
       error => {
         console.error("Failed to load drivers:", error)
@@ -41,13 +40,17 @@ export class ListDriversComponent implements OnInit {
           if (response.deletedCount > 0) {
             this.loadDrivers();
           } else {
-            this.router.navigate(['invalid_data']);
+            this.router.navigate(['invalid-data']);
           }
         },
         error => {
-          this.router.navigate(['invalid_data']);
+          this.router.navigate(['invalid-data']);
         }
       );
     }
+  }
+
+  getAssignedPackageIds(packages: any[]): string {
+    return packages.map(packageObj => packageObj._id).join(', ');
   }
 }

@@ -19,7 +19,10 @@ export class ListPackagesComponent implements OnInit {
     this.loadPackages();
   }
 
+
+
   loadPackages() {
+    this.packages = [];
     this.packageService.getPackages().subscribe(
       (response: any) => {
         for (let packageObj of response) {
@@ -39,11 +42,12 @@ export class ListPackagesComponent implements OnInit {
           if (response.deletedCount > 0) {
             this.loadPackages();
           } else {
-            this.router.navigate(['/invalid_data']);
+            this.router.navigate(['/invalid-data']);
           }
         },
         error => {
-          this.router.navigate(['/invalid_data']);
+          console.error('Failed to delete package:', error);
+          this.router.navigate(['/invalid-data']);
         }
       );
     }

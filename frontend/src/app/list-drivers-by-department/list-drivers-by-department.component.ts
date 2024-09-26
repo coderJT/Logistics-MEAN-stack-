@@ -20,6 +20,7 @@ export class ListDriversByDepartmentComponent {
 
 
   loadDrivers() {
+    this.drivers = [];
     if (this.driver.driver_department) {
       this.drivers = [];
       this.driversDB.getDriversByDepartment(this.driver.driver_department).subscribe((response: any) => {
@@ -38,11 +39,11 @@ export class ListDriversByDepartmentComponent {
           if (response.deletedCount > 0) {
             this.loadDrivers();
           } else {
-            this.router.navigate(['invalid_data']);
+            this.router.navigate(['invalid-data']);
           }
         },
         error => {
-          this.router.navigate(['invalid_data']);
+          this.router.navigate(['invalid-data']);
         }
       );
     }
