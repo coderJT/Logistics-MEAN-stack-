@@ -24,25 +24,10 @@ const express = require('express');
 const router = express.Router();
 
 // Use authentication middleware
-const { checkAuthentication, checkAuthenticationAPI } = require('../middleware/authenticate'); 
-
-// Function to record CRUD operation count
-const { incrementCreate, incrementRead, incrementUpdate, incrementDelete } = require('../utils/crudCounter');
-
-// Import function to generate ID for driver
-const { generatePackageID } = require('../utils/generateID');
-
-// Import Package Mongoose model
-const Package = require('../models/package');
-
-// Import Driver Mongoose model
-const Driver = require('../models/driver');
+const { checkAuthenticationAPI } = require('../middleware/authenticate'); 
 
 // Import Firebase admin library
 const admin = require('firebase-admin');
-
-// Access Firestore database
-const db = admin.firestore();
 
 // Import Package Controller
 const packages = require('../controllers/packageController');
@@ -66,7 +51,7 @@ router.post('/api/v1/packages', checkAuthenticationAPI, packages.createOne);
  * 
  * @description API route for deleting a package.
  */
-router.delete('/api/v1/packages/:_id', checkAuthenticationAPI, packages.deleteOne);
+router.delete('/api/v1/packages/:id', checkAuthenticationAPI, packages.deleteOne);
 
 /**
  * PUT /api/v1/packages

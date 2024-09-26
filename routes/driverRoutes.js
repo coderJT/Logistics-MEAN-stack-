@@ -25,9 +25,6 @@ const router = express.Router();
 // Use authentication middleware
 const { checkAuthenticationAPI } = require('../middleware/authenticate');
 
-// Import Firebase admin library
-const admin = require('firebase-admin');
-
 // Import Driver Controller
 const drivers = require('../controllers/driverController');
 
@@ -57,8 +54,7 @@ router.post('/api/v1/drivers', checkAuthenticationAPI, drivers.createOne);
  * 
  * @description API route for deleting a driver.
  */
-router.delete('/api/v1/drivers', checkAuthenticationAPI, drivers.deleteOne);
-
+router.delete('/api/v1/drivers/:id', checkAuthenticationAPI, drivers.deleteOne);
 
 /**
  * PUT /api/v1/drivers
