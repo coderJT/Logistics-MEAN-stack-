@@ -154,7 +154,8 @@ module.exports = {
 
     deleteOne: async function (req, res) {
         try {
-            const _id = req.query._id; 
+            const _id = req.params.id; 
+            console.log(_id);
             
             let targetDriver = await Driver.findOne({ _id: _id }).populate('assigned_packages').exec();
 

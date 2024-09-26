@@ -141,12 +141,12 @@ module.exports = {
      */
     deleteOne: async function (req, res) {
         try {
-            const _id = req.params._id;
+            const _id = req.params.id;
             
             let result = await Package.deleteOne({ _id: _id });
             
             if (!result) {
-                return res.status(404).json({ error: "Driver not found" });
+                return res.status(404).json({ error: "Package not found" });
             }
 
             await incrementDelete();
