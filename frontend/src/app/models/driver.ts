@@ -1,5 +1,5 @@
 export class Driver {
-    _id: string;
+    _id?: string;
     driver_id: string;
     driver_name: string;
     driver_department: string;
@@ -9,7 +9,6 @@ export class Driver {
     created_at: Date;
     
     constructor() {
-        this._id = "";
         this.driver_id = "";
         this.driver_name = "";
         this.driver_department = "";
