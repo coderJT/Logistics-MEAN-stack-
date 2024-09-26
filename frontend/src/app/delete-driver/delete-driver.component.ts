@@ -32,13 +32,14 @@ export class DeleteDriverComponent {
      this.driversDB.removeDriver(this.driver._id).subscribe(
         (response: any) => {
           if (response.deletedCount > 0) {
-            this.router.navigate(['list_drivers']);
+            this.router.navigate(['list-drivers']);
           } else {
-            this.router.navigate(['invalid_data']);
+            this.router.navigate(['invalid-data']);
           }
         },
         error => {
-          this.router.navigate(['/invalid_data']);
+          console.error('Error removing driver:', error);
+          this.router.navigate(['/invalid-data']);
         }
       );
     }

@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { DriverService } from '../driver.service';
 import { Router } from '@angular/router';
+import { DriverService } from '../driver.service';
 import { Driver } from '../models/driver';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-add-driver',
+  templateUrl: './add-driver.component.html',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './add-driver.component.html',
-  styleUrl: './add-driver.component.css'
+  styleUrls: ['./add-driver.component.css']
 })
 export class AddDriverComponent {
 
@@ -18,7 +18,14 @@ export class AddDriverComponent {
   constructor(private driversDB: DriverService, private router: Router) {}
 
   addDriver() {
-    this.driversDB.addDriver(this.driver);
-    this.router.navigate(['list-drivers']);
+    this.driversDB.addDriver(this.driver).subscribe(
+      response => {
+        console.log('Driver added successfully', response);
+        this.router.navigate(['list-drivers']);
+      },
+      error => {
+        console.error('Error adding driver:', error);
+      }
+    );
   }
 }

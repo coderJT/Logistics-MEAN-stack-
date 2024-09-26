@@ -4,45 +4,57 @@
             <h2 class="text-center">Add Driver</h2>
         </div>
         <div class="card-body">
-            <form (ngSubmit)="addDriver()">
+            <form #driverForm="ngForm" (ngSubmit)="addDriver()" novalidate>
                 <div class="form-group">
                     <label for="driver_name" class="form-label fw-bold text-primary">Driver Name:</label>
                     <input type="text" class="form-control" id="driver_name" name="driver_name" minlength="3"
                         maxlength="20" onkeydown="return /[a-z]/i.test(event.key)" required
-                        [(ngModel)]="driver.driver_name">
+                        [(ngModel)]="driver.driver_name" #driverName="ngModel">
+                    <div *ngIf="driverName.invalid && driverName.touched" class="text-danger">
+                        Driver name is required (3-20 letters).
+                    </div>
                 </div>
+                
                 <div class="form-group mt-2">
                     <label for="department" class="form-label fw-bold text-primary">Driver Department:</label>
                     <select id="department" class="form-control" name="driver_department"
-                        [(ngModel)]="driver.driver_department">
+                        required [(ngModel)]="driver.driver_department" #driverDepartment="ngModel">
+                        <option value="" disabled>Select department</option>
                         <option value="Food">Food</option>
                         <option value="Furniture">Furniture</option>
                         <option value="Electronic">Electronic</option>
                     </select>
+                    <div *ngIf="driverDepartment.invalid && driverDepartment.touched" class="text-danger">
+                        Please select a department.
+                    </div>
                 </div>
 
                 <div class="form-group mt-2">
                     <label for="driver_license" class="form-label fw-bold text-primary">Driver License:</label>
                     <input type="text" class="form-control" id="driver_license" name="driver_license" minlength="5"
-                        maxlength="5" required [(ngModel)]="driver.driver_license">
+                        maxlength="5" required [(ngModel)]="driver.driver_license" #driverLicense="ngModel">
+                    <div *ngIf="driverLicense.invalid && driverLicense.touched" class="text-danger">
+                        Driver license is required (5 characters).
+                    </div>
                 </div>
 
                 <div class="form-group mt-2">
                     <label class="form-label fw-bold text-primary">Driver is active?</label><br>
                     <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" id="yes" value="yes" name="driver_is_active"
-                            required [(ngModel)]="driver.driver_is_active">
-                        <label class="form-check-label" for="yes">Yes</label>
+                      <input type="radio" class="form-check-input" id="yes" value="yes" name="driver_is_active"
+                        required [(ngModel)]="driver.driver_is_active" #driverIsActive="ngModel">
+                      <label class="form-check-label" for="yes">Yes</label>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" id="no" value="no" name="driver_is_active"
-                            [(ngModel)]="driver.driver_is_active">
-                        <label class="form-check-label" for="no">No</label>
-                    </div>
-                </div>
 
+                    <div class="form-check form-check-inline">
+                      <input type="radio" class="form-check-input" id="no" value="no" name="driver_is_active"
+                        required [(ngModel)]="driver.driver_is_active">
+                      <label class="form-check-label" for="no">No</label>
+                    </div>
+                  </div>
                 <div>
-                    <input class="btn btn-primary mt-2" type="submit" value="Submit">
+
+                    <input class="btn btn-primary mt-2" type="submit" [disabled]="driverForm.invalid" value="Submit">
                 </div>
             </form>
         </div>

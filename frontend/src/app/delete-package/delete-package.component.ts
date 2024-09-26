@@ -29,13 +29,14 @@ export class DeletePackageComponent {
      this.packagesDB.removePackage(this.package._id).subscribe(
         (response: any) => {
           if (response.deletedCount > 0) {
-            this.router.navigate(['list_packages']);
+            this.router.navigate(['list-packages']);
           } else {
-            this.router.navigate(['invalid_data']);
+            this.router.navigate(['invalid-data']);
           }
         },
         error => {
-          this.router.navigate(['invalid_data']);
+          console.error('Error removing driver:', error);
+          this.router.navigate(['invalid-data']);
         }
       );
     }
