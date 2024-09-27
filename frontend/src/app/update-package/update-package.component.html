@@ -1,1 +1,42 @@
-<p>update-package works!</p>
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card shadow-lg" style="width: 70vw;">
+        <div class="card-header bg-primary text-white">
+            <h2 class="text-center">Update Package</h2>
+        </div>
+        <div class="card-body">
+            
+            <!-- Package selection -->
+            <div class="form-group"></div>
+                <label for="packageSelect" class="form-label fw-bold text-primary">Select Package to Update:</label>
+                <select id="driverSelect" class="form-control" [(ngModel)]="selectedPackageId" 
+                        (change)="loadPackageDetails()" required>
+                    <option value="" disabled>Select package</option>
+                    <option *ngFor="let package of packages" [ngValue]="package._id">
+                        {{ package.package_id }} - {{ package.package_title }}
+                     </option>
+                </select>
+            </div>
+            <form #packageForm="ngForm" (ngSubmit)="updatePackage()" novalidate *ngIf="package" style="margin:20px">
+                
+                <div class="form-group">
+                    <label for="driver_name" class="form-label fw-bold text-primary">Package Title:</label>
+                    <input type="text" class="form-control" id="package_title" name="package_title" 
+                           [(ngModel)]="package.package_title" #packageName="ngModel" disabled>
+                </div>
+
+                <div class="form-group mt-2">
+                    <label for="package_destination" class="form-label fw-bold text-primary">Package destination:</label>
+                    <input type="text" class="form-control" id="package_destination" name="package_destination" minlength="5"
+                           required [(ngModel)]="package.package_destination" #packageDestination="ngModel">
+                    @if(packageDestination.invalid && packageDestination.touched) {
+                        <div class="text-danger">Package destination is required (minimum 5 characters).</div>
+                    }
+                </div>
+
+                <div>
+                    <input class="btn btn-primary mt-2" type="submit" [disabled]="packageForm.invalid" value="Update">
+                </div>
+            </form>
+        </div>
+    </div>
+
