@@ -1,49 +1,33 @@
-import { Component } from '@angular/core';
-import { DriverService } from '../driver.service';
-import { PackageService } from '../package.service';
+import { Component, OnInit } from '@angular/core';
+import { UtilsService } from '../utils.service';
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
   imports: [],
   templateUrl: './homepage.component.html',
-  styleUrl: './homepage.component.css'
+  styleUrls: ['./homepage.component.css'] 
 })
-export class HomepageComponent {
-  drivers: any[] = [];
-  packages: any[] = [];
+export class HomepageComponent implements OnInit {
+  driverCount: number = 0;  
+  packageCount: number = 0;
 
-  constructor(private driversDB: DriverService, private packagesDB: PackageService) {}
+  constructor(private utilsService: UtilsService) {}
 
   ngOnInit(): void {
-    this.loadDrivers();
-    this.loadPackages();
+    this.loadCount();
   }
 
-  loadDrivers() {
-    this.driversDB.getDrivers().subscribe(
+  loadCount(): void {
+    this.utilsService.getCount().subscribe(
       (response: any) => {
-        for (let driver of response) {
-          this.drivers.push(driver);
-        }
+        console.log(response);
+        this.driverCount = response.driverCount;
+        this.packageCount = response.packageCount;
       },
-      error => {
-        console.error('Failed to load drivers:', error);
-      }
-    );
-  }
-
-  loadPackages() {
-    this.packagesDB.getPackages().subscribe(
-      (response: any) => {
-       for (let packageObj of response) {
-         this.packages.push(packageObj);
-       }
-      },
-      error => {
-        console.error('Failed to load drivers:', error);
+      (error) => {
+        console.error('Failed to load driver and package counts:', error);
       }
     );
   }
 }
-
