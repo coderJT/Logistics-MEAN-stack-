@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -9,19 +9,30 @@ import { Router } from '@angular/router';
 })
 export class AuthenticationService {
   private apiUrl = 'http://localhost:8080/api/v1';
+  private loggedInSubject = new BehaviorSubject<boolean>(this.isTokenAvailable());
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  private isTokenAvailable(): boolean {
+    return localStorage.getItem('token') !== null;
+  }
+
   setToken(token: string): void {
     localStorage.setItem('token', token);
+    this.loggedInSubject.next(true); // Update login state
+  }
+
+  clearToken(): void {
+    localStorage.removeItem('token');
+    this.loggedInSubject.next(false); // Update login state
   }
 
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  isLoggedIn(): boolean {
-    return this.getToken() !== null;
+  isLoggedIn(): Observable<boolean> {
+    return this.loggedInSubject.asObservable(); // Observable for the login state
   }
 
   login(credentials: { username: string, password: string }): Observable<any> {
@@ -36,10 +47,10 @@ export class AuthenticationService {
 
   signUp(credentials: { username: string, password: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/signup`, credentials);
-  } 
+  }
 
   logout(): Observable<void> {
-    localStorage.removeItem('token');
+    this.clearToken();
     this.router.navigate(['/login']);
     return of(); // Return an observable
   }
