@@ -21,6 +21,11 @@ export class PackageService {
     return this.http.get<any>(this.apiUrl, { headers });
   }
 
+  getPackageById(packageId: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.get<any>(`${this.apiUrl}/${packageId}`, { headers });
+  }
+
   addPackage(packageInfo: any): Observable<any> {
     const headers = this.getHeaders();
     return this.http.post<any>(this.apiUrl, packageInfo, { headers });

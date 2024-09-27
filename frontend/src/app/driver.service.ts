@@ -21,6 +21,11 @@ export class DriverService {
     return this.http.get<any>(this.apiUrl, { headers });
   }
 
+  getDriverById(driverId: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.get<any>(`${this.apiUrl}/${driverId}`, { headers });
+  }
+
   addDriver(driver: any): Observable<any> {
     const headers = this.getHeaders();
     return this.http.post<any>(this.apiUrl, driver, { headers });
