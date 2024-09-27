@@ -36,6 +36,13 @@ const drivers = require('../controllers/driverController');
 router.get('/api/v1/drivers', checkAuthenticationAPI, drivers.getAll);
 
 /**
+ * GET /api/v1/drivers/:id
+ * 
+ * @description API route for getting all drivers by ID.
+ */
+router.get('/api/v1/drivers/:id', checkAuthenticationAPI, drivers.getDriverById);
+
+/**
  * GET /api/v1/drivers/department/:id
  * 
  * @description API route for getting all drivers by department.
@@ -61,7 +68,7 @@ router.delete('/api/v1/drivers/:id', checkAuthenticationAPI, drivers.deleteOne);
  * 
  * @description API route for updating a driver.
  */
-router.put('/api/v1/drivers', checkAuthenticationAPI, drivers.updateOne);
+router.put('/api/v1/drivers/:id', checkAuthenticationAPI, drivers.updateOne);
 
 
 module.exports = router;

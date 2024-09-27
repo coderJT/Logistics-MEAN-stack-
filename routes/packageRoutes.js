@@ -39,6 +39,14 @@ const packages = require('../controllers/packageController');
  */
 router.get('/api/v1/packages', checkAuthenticationAPI, packages.getAll);
 
+
+/**
+ * GET /api/v1/packages/:id
+ * 
+ * @description API route for getting all packages by ID.
+ */
+router.get('/api/v1/packages/:id', checkAuthenticationAPI, packages.getPackageById);
+
 /**
  * POST /api/v1/packages
  * 
@@ -58,7 +66,7 @@ router.delete('/api/v1/packages/:id', checkAuthenticationAPI, packages.deleteOne
  * 
  * @description API route for updating a package.
  */
-router.put('/api/v1/packages', checkAuthenticationAPI, packages.updateOne);
+router.put('/api/v1/packages/:id', checkAuthenticationAPI, packages.updateOne);
 
 
 module.exports = router;
