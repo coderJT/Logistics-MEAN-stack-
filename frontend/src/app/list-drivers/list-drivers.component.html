@@ -1,24 +1,25 @@
 <div class="container p-3 text-center flex-fill" style="height: 100vh;">
     <h1>Driver List</h1>
     @if (drivers && drivers.length > 0) {
-    <div style="max-height: 80vh; overflow-y: auto">
-        <table class="table table-striped table-bordered" style="table-layout: fixed; width: 100%;">
+    <div class="table-responsive" style="max-height: 80vh; overflow-y: auto;">
+        <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <th scope="col" class="text-wrap">Mongoose ID</th>
-                    <th scope="col" class="text-wrap">Driver ID</th>
-                    <th scope="col" class="text-wrap">Name</th>
-                    <th scope="col" class="text-wrap">Department</th>
-                    <th scope="col" class="text-wrap">License</th>
-                    <th scope="col" class="text-wrap">Is Active</th>
-                    <th scope="col" class="text-wrap">Created At</th>
-                    <th scope="col" class="text-wrap">Assigned Packages</th>
-                    <th scope="col" class="text-wrap">Actions</th>
+                    <th scope="col" class="text-wrap" style="width: 10%;">Mongoose ID</th>
+                    <th scope="col" class="text-wrap" style="width: 10%;">Driver ID</th>
+                    <th scope="col" class="text-wrap" style="width: 15%;">Name</th>
+                    <th scope="col" class="text-wrap" style="width: 15%;">Department</th>
+                    <th scope="col" class="text-wrap" style="width: 10%;">License</th>
+                    <th scope="col" class="text-wrap" style="width: 10%;">Is Active</th>
+                    <th scope="col" class="text-wrap" style="width: 10%;">Created At</th>
+                    <th scope="col" class="text-wrap" style="width: 20%;">Assigned Packages</th>
+                    <th scope="col" class="text-wrap" style="width: 10%;">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @for (driver of drivers; track driver; let i = $index) {                
                 <tr>
+                    <!-- Hide Mongoose ID and Created At on small screens -->
                     <td class="text-break">{{ driver._id }}</td>
                     <td class="text-break">{{ driver.driver_id }}</td>
                     <td class="text-break">{{ driver.driver_name }}</td>
@@ -28,7 +29,7 @@
                     <td class="text-break">{{ driver.created_at }}</td>
                     <td class="text-break">{{ getAssignedPackageIds(driver.assigned_packages) }}</td>
                     <td>
-                        <button class="btn btn-danger" (click)="deleteDriver(driver._id)">Delete</button>
+                        <button class="btn btn-danger btn-sm" (click)="deleteDriver(driver._id)">Delete</button>
                     </td>
                 </tr>
                 }

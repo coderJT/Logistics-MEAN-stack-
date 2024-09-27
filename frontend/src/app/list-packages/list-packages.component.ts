@@ -19,8 +19,6 @@ export class ListPackagesComponent implements OnInit {
     this.loadPackages();
   }
 
-
-
   loadPackages() {
     this.packages = [];
     this.packageService.getPackages().subscribe(
