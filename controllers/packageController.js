@@ -52,6 +52,20 @@ module.exports = {
         }
     },
 
+    getPackageById: async function (req, res) {
+        try {
+            let package = await Package.findOne({ _id: req.params.id })
+            await incrementRead();
+
+            if (!package)
+                return res.status(404).json({ error: "Package not found with ID: " + req.params.id });  
+
+            res.json(package);
+        } catch (err) {
+            res.json({ error: "Failed to get package with ID: " + req.params.id });
+        }
+    },
+
      /**
      * Controller method that creates a new package.
      * @description This method will take request body and create a new package from it.
@@ -108,7 +122,7 @@ module.exports = {
             let data = req.body;
 
             let result = await Package.findOneAndUpdate(
-                { _id: data._id },
+                { _id: req.params.id },
                 {
                     package_destination: data.package_destination,
                 },

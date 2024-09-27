@@ -51,6 +51,34 @@ module.exports = {
         }
     },
 
+    
+    /**
+     * Controller method that retrieves a driver by ID.
+     * @description This method queries the database for a driver with the given ID and then populate it with its assigned packages.
+     * @description Read counter will increase by 1 for this operation.
+     * 
+     * @async
+     * @function getById
+     * @param {Object} req - Express request object.
+     * @param {Object} res - Express response object.   
+     * @returns {Promise<void>} Returns a JSON response with the driver available or an error message.
+     */
+    getDriverById: async function (req, res) {
+        try {
+            let driver = await Driver.findOne({ _id: req.params.id }).populate('assigned_packages').exec();
+            await incrementRead();
+
+            if (!driver)
+                return res.status(404).json({ error: "Driver not found with ID: " + req.params.id });
+
+            res.json(driver);
+
+        } catch (err) {
+            res.status(500).json({ error: "Failed to get driver with ID: " + req.params.id + " - " + err.message });
+        }
+    },
+    
+
     /**
      * Controller method that retrieves all available drivers by department.
      * 
@@ -121,7 +149,7 @@ module.exports = {
             let data = req.body;
 
             let result = await Driver.findOneAndUpdate(
-                { _id: data._id },
+                { _id: req.params.id },
                 {
                     driver_license: data.driver_license,
                     driver_department: data.driver_department,
