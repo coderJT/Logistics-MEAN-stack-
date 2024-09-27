@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +11,15 @@ import { Router, RouterModule } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
+
   userLoggedIn = false;
+  private authSubscription: Subscription;
 
   constructor(private authService: AuthenticationService, private router: Router) { 
-    this.userLoggedIn = this.authService.isLoggedIn();
+    this.authSubscription = this.authService.isLoggedIn().subscribe(loggedIn => {
+      this.userLoggedIn = loggedIn;
+    });
   }
 
   logout() {
@@ -23,4 +28,12 @@ export class HeaderComponent {
       this.router.navigate(['/login']); 
     });
   }
+
+  ngOnDestroy() {
+    // Unsubscribe to avoid memory leaks
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
 }
+
