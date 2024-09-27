@@ -42,6 +42,8 @@ const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { checkAuthenticationAPI } = require('./middleware/authenticate');
+const driver = require('./models/driver');
+const package = require('./models/package');
 
 const JWT_KEY = "secret_key_in_env";
 
@@ -145,13 +147,27 @@ app.post('/api/v1/login', async (req, res) => {
     }
 })
 
+app.use('/api/v1/count', async (req, res) => {
+    try {
+        const driverCount = await driver.countDocuments({});
+        const packageCount = await package.countDocuments({});
+
+        res.json({
+            driverCount,
+            packageCount
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to retrieve driver and package count: ' + error.message });
+    }
+});
+
+
 
 /**
  * Use driver, packages and authentication routes.
  */
 app.use('/', driverRoutes);
 app.use('/', packagesRoutes);
-// app.use('/', authenticationRoutes);
 
 /**
  * GET method for rendering statistics about CRUD operations.
