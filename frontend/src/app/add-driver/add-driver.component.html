@@ -10,9 +10,9 @@
                     <input type="text" class="form-control" id="driver_name" name="driver_name" minlength="3"
                         maxlength="20" onkeydown="return /[a-z]/i.test(event.key)" required
                         [(ngModel)]="driver.driver_name" #driverName="ngModel">
-                    <div *ngIf="driverName.invalid && driverName.touched" class="text-danger">
-                        Driver name is required (3-20 letters).
-                    </div>
+                        @if(driverName.invalid && driverName.touched) {
+                            <div class="text-danger">Driver name is required (3 - 20 letters).</div>
+                        }
                 </div>
                 
                 <div class="form-group mt-2">
@@ -24,18 +24,18 @@
                         <option value="Furniture">Furniture</option>
                         <option value="Electronic">Electronic</option>
                     </select>
-                    <div *ngIf="driverDepartment.invalid && driverDepartment.touched" class="text-danger">
-                        Please select a department.
-                    </div>
+                    @if(driverDepartment.invalid && driverDepartment.touched) {
+                        <div class="text-danger">Please select a department.</div>
+                    }
                 </div>
 
                 <div class="form-group mt-2">
                     <label for="driver_license" class="form-label fw-bold text-primary">Driver License:</label>
                     <input type="text" class="form-control" id="driver_license" name="driver_license" minlength="5"
                         maxlength="5" required [(ngModel)]="driver.driver_license" #driverLicense="ngModel">
-                    <div *ngIf="driverLicense.invalid && driverLicense.touched" class="text-danger">
-                        Driver license is required (5 characters).
-                    </div>
+                    @if(driverLicense.invalid && driverLicense.touched) {
+                        <div class="text-danger">Driver license is required (5 characters).</div>
+                    }
                 </div>
 
                 <div class="form-group mt-2">

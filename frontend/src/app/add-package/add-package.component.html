@@ -4,63 +4,80 @@
             <h2 class="text-center">Add Package</h2>
         </div>
         <div class="card-body">
-            <form (ngSubmit)="addPackage()">
+            <form #packageForm="ngForm" (ngSubmit)="addPackage()">
+                <!-- Package Title -->
                 <div class="form-group">
                     <label for="package_title" class="form-label fw-bold text-primary">Package Title:</label>
                     <input type="text" class="form-control input-lg" id="package_title" name="package_title"
-                        [(ngModel)]="package.package_title" minlength="3" maxlength="15" required>
+                        [(ngModel)]="package.package_title" minlength="3" maxlength="15" required #packageTitle="ngModel">
+                    @if(packageTitle.invalid && packageTitle.touched) {
+                        <div class="text-danger">Package title is required and must be between 3 and 15 characters.</div>
+                    }
                 </div>
 
+                <!-- Package Weight -->
                 <div class="form-group mt-4">
                     <label for="package_weight" class="form-label fw-bold text-primary">Package Weight:</label>
                     <input type="number" class="form-control" id="package_weight" name="package_weight" min="0.1"
-                        [(ngModel)]="package.package_weight" step="any" required>
+                        [(ngModel)]="package.package_weight" step="any" required #packageWeight="ngModel">
+                    @if(packageWeight.invalid && packageWeight.touched) {
+                        <div class="text-danger">Package weight is required and must be greater than 0.</div>
+                    }
                 </div>
 
+                <!-- Package Destination -->
                 <div class="form-group mt-4">
-                    <label for="package_destination" class="form-label fw-bold text-primary">Package
-                        Destination:</label>
+                    <label for="package_destination" class="form-label fw-bold text-primary">Package Destination:</label>
                     <input type="text" class="form-control" id="package_destination" name="package_destination"
-                        [(ngModel)]="package.package_destination" minlength="5" maxlength="15" required>
+                        [(ngModel)]="package.package_destination" minlength="5" maxlength="15" required #packageDestination="ngModel">
+                    @if(packageDestination.invalid && packageDestination.touched) {
+                        <div class="text-danger">Destination is required and must be between 5 and 15 characters.</div>
+                    }
                 </div>
 
+                <!-- Package Description -->
                 <div class="form-group mt-4">
-                    <label for="package_description" class="form-label fw-bold text-primary">Package
-                        Description:</label>
+                    <label for="package_description" class="form-label fw-bold text-primary">Package Description:</label>
                     <textarea class="form-control" id="package_description" name="package_description"
                         [(ngModel)]="package.package_description" minlength="0" maxlength="30"></textarea>
                 </div>
 
+                <!-- Is Allocated -->
                 <div class="form-group mt-4">
                     <label class="form-label fw-bold text-primary">Package is Allocated?</label><br>
                     <div class="form-check form-check-inline">
                         <input type="radio" class="form-check-input" id="allocated-yes" value="yes"
-                            [(ngModel)]="package.is_allocated" name="is_allocated" required>
+                            [(ngModel)]="package.is_allocated" name="is_allocated" required #isAllocated="ngModel">
                         <label class="form-check-label" for="allocated-yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input type="radio" class="form-check-input" id="allocated-no" value="no"
-                            [(ngModel)]="package.is_allocated" name="is_allocated">
+                            [(ngModel)]="package.is_allocated" name="is_allocated" required #isAllocated="ngModel">
                         <label class="form-check-label" for="allocated-no">No</label>
                     </div>
+                    @if(isAllocated.invalid && isAllocated.touched) {
+                        <div>Please select if the package is allocated or not.</div>
+                    }
                 </div>
 
+                <!-- Driver -->
                 <div class="form-group mt-4">
                     <label for="_id" class="form-label fw-bold text-primary">Driver:</label>
                     <select class="form-control" id="_id" name="driver_mongoose_id"
-                        [(ngModel)]="package.driver_mongoose_id" required>
+                        [(ngModel)]="package.driver_mongoose_id" required #driverMongooseId="ngModel">
                         <option value="" disabled>Select a driver</option>
                         <option *ngFor="let driver of drivers" [ngValue]="driver._id">
                             {{ driver.driver_id }} - {{ driver.driver_name }}
                         </option>
                     </select>
+                    @if (driverMongooseId.invalid && driverMongooseId.touched) {
+                        <div>Please select a driver.</div>
+                    }
                 </div>
-                
 
-
+                <!-- Submit Button -->
                 <div class="text-center">
-                    <button class="btn btn-primary mt-4 m-3" type="submit"
-                        [disabled]="!package.driver_mongoose_id">Submit</button>
+                    <button class="btn btn-primary mt-4 m-3" type="submit" [disabled]="packageForm.invalid">Submit</button>
                 </div>
 
             </form>
