@@ -1,0 +1,57 @@
+<div class="container p-5 text-center">
+    <h1>Translate Package Description</h1>
+    @if (packages.length > 0) {
+        <div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-wrap" style="width: 10%;">Mongoose ID</th>
+                    <th scope="col" class="text-wrap" style="width: 10%;">Package ID</th>
+                    <th scope="col" class="text-wrap" style="width: 15%;">Title</th>
+                    <th scope="col" class="text-wrap" style="width: 5%;">Weight</th>
+                    <th scope="col" class="text-wrap" style="width: 10%;">Destination</th>
+                    <th scope="col" class="text-wrap" style="width: 15%;">Description</th>
+                    <th scope="col" class="text-wrap" style="width: 10%;">Created At</th>
+                    <th scope="col" class="text-wrap" style="width: 10%;">Is Allocated</th>
+                    <th scope="col" class="text-wrap" style="width: 20%;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (package of packages; track package; let i = $index) {
+                    <tr>
+                        <td class="text-break">{{ package._id }}</td>
+                        <td class="text-break">{{ package.package_id }}</td>
+                        <td class="text-break">{{ package.package_title }}</td>
+                        <td class="text-break">{{ package.package_weight }}</td>
+                        <td class="text-break">{{ package.package_destination }}</td>
+                        <td class="text-break">{{ package.package_description }}</td>
+                        <td class="text-break">{{ package.created_at }}</td>
+                        <td class="text-break">{{ package.is_allocated ? 'Yes' : 'No' }}</td>
+                        <td class="text-break">
+                            <select [(ngModel)]="selectedLanguage" class="form-select form-select-sm">
+                                @for(language of languages; track language; let i = $index)
+                                {
+                                      <option [value]="language.code">{{ language.name }}</option>
+                                }
+                            </select>
+                            <button class="btn btn-primary btn-sm m-1" (click)="translateDescription(package)">Translate</button>
+                        </td>
+                    </tr>
+                    @if (package.translatedDescription && selectedPackage === package._id) {
+                        <tr class="bg-light">
+                            <td colspan="9">Translated Description: {{ package.translatedDescription }}</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+}
+@else {
+    <div class="alert alert-info mt-3" role="alert">
+        No packages available.
+    </div>
+
+}
+</div>
+    
