@@ -11,9 +11,11 @@
                 <select id="driverSelect" class="form-control" [(ngModel)]="selectedPackageId" 
                         (change)="loadPackageDetails()" required>
                     <option value="" disabled>Select package</option>
-                    <option *ngFor="let package of packages" [ngValue]="package._id">
-                        {{ package.package_id }} - {{ package.package_title }}
-                     </option>
+                    @for(package of packages; track package; let i = $index) {
+                        <option [ngValue]="package._id">
+                            {{ package.package_id }} - {{ package.package_title }}
+                        </option>
+                    }
                 </select>
             </div>
             <form #packageForm="ngForm" (ngSubmit)="updatePackage()" novalidate *ngIf="package" style="margin:20px">

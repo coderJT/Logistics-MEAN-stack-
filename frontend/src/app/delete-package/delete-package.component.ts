@@ -16,7 +16,7 @@ export class DeletePackageComponent {
   package = { _id: '' };
   packages: Package[] = [];
 
-  constructor(private packagesDB: PackageService, private router: Router) { } 
+  constructor(private packagesDB: PackageService, private router: Router) { }
 
   ngOnInit(): void {
     this.packagesDB.getPackages().subscribe((data: any) => {
@@ -26,7 +26,7 @@ export class DeletePackageComponent {
 
   deletePackage() {
     if (this.package._id) {
-     this.packagesDB.removePackage(this.package._id).subscribe(
+      this.packagesDB.removePackage(this.package._id).subscribe(
         (response: any) => {
           if (response.deletedCount > 0) {
             this.router.navigate(['list-packages']);
@@ -36,7 +36,6 @@ export class DeletePackageComponent {
         },
         error => {
           console.error('Error removing driver:', error);
-          this.router.navigate(['invalid-data']);
         }
       );
     }

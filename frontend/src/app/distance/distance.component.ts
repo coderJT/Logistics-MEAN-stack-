@@ -1,12 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PackageService } from '../package.service';
 import { io, Socket } from 'socket.io-client';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-distance',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './distance.component.html',
   styleUrls: ['./distance.component.css']
 })
@@ -17,11 +15,11 @@ export class DistanceComponent implements OnInit, OnDestroy {
   distance: number = 0;
 
   constructor(private packageService: PackageService) {
-    this.socket = io('http://localhost:8080'); 
+    this.socket = io('http://localhost:8080');
 
     this.socket.on('distanceResult', (data: { packageId: string, distance: number }) => {
       if (data && data.packageId) {
-        this.distance = data.distance; 
+        this.distance = data.distance;
         console.log(`Distance for package ${data.packageId}: ${this.distance}`);
       }
     });
@@ -32,7 +30,7 @@ export class DistanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.socket.disconnect(); // Clean up the socket connection
+    this.socket.disconnect(); 
   }
 
   loadPackages() {

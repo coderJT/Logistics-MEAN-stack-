@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { DriverService } from '../driver.service';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-driver',
   templateUrl: './update-driver.component.html',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule],
   styleUrls: ['./update-driver.component.css']
 })
 export class UpdateDriverComponent implements OnInit {

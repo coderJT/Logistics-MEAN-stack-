@@ -11,9 +11,11 @@
                 <select id="driverSelect" class="form-control" [(ngModel)]="selectedDriverId" 
                         (change)="loadDriverDetails()" required>
                     <option value="" disabled>Select driver</option>
-                    <option *ngFor="let driver of drivers" [ngValue]="driver._id">
-                        {{ driver.driver_id }} - {{ driver.driver_name }}
-                     </option>
+                    @for(driver of drivers; track driver; let i = $index) {
+                        <option [ngValue]="driver._id">
+                            {{ driver.driver_id }} - {{ driver.driver_name }}
+                        </option>
+                    }
                 </select>
             </div>
             <form #driverForm="ngForm" (ngSubmit)="updateDriver()" novalidate *ngIf="driver" style="margin:20px">

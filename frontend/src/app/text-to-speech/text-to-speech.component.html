@@ -27,14 +27,12 @@
                     <td class="text-break">{{ driver.created_at }}</td>
                     <td class="text-center">
                         <button class="btn btn-danger btn-sm m-1" (click)="convert(driver)">Speech</button>
-                        <div *ngIf="audioUrl && selectedDriver === driver._id">
+                        @if (audioUrl && selectedDriver === driver._id) {
                             <h4>Speech Output:</h4>
                             <audio [src]="audioUrl" controls></audio>
-                        </div>
+                        }
                     </td>
                 </tr>
-
-
                 }
             </tbody>
         </table>

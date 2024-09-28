@@ -4,15 +4,15 @@ import { DriverService } from '../driver.service';
 import { PackageService } from '../package.service';
 import { Router } from "@angular/router";
 import { Package } from '../models/package';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-package',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule],
   templateUrl: './add-package.component.html',
   styleUrl: './add-package.component.css'
 })
+
 export class AddPackageComponent {
 
   package: Package = new Package();
@@ -34,5 +34,4 @@ export class AddPackageComponent {
       this.router.navigate(['list-packages']);
     });
   }
-
 }

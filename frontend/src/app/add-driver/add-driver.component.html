@@ -5,55 +5,67 @@
         </div>
         <div class="card-body">
             <form #driverForm="ngForm" (ngSubmit)="addDriver()" novalidate>
+
+                <!-- Driver Name Input -->
                 <div class="form-group">
                     <label for="driver_name" class="form-label fw-bold text-primary">Driver Name:</label>
                     <input type="text" class="form-control" id="driver_name" name="driver_name" minlength="3"
                         maxlength="20" onkeydown="return /[a-z]/i.test(event.key)" required
                         [(ngModel)]="driver.driver_name" #driverName="ngModel">
-                        @if(driverName.invalid && driverName.touched) {
-                            <div class="text-danger">Driver name is required (3 - 20 letters).</div>
-                        }
+
+                    @if(driverName.invalid && driverName.touched) {
+                        <div class="text-danger">Driver name is required (3 - 20 letters).</div>
+                    }
                 </div>
-                
+
+                <!-- Driver Department Selection -->
                 <div class="form-group mt-2">
                     <label for="department" class="form-label fw-bold text-primary">Driver Department:</label>
-                    <select id="department" class="form-control" name="driver_department"
-                        required [(ngModel)]="driver.driver_department" #driverDepartment="ngModel">
+                    <select id="department" class="form-control" name="driver_department" required
+                        [(ngModel)]="driver.driver_department" #driverDepartment="ngModel">
                         <option value="" disabled>Select department</option>
                         <option value="Food">Food</option>
                         <option value="Furniture">Furniture</option>
                         <option value="Electronic">Electronic</option>
                     </select>
+
                     @if(driverDepartment.invalid && driverDepartment.touched) {
                         <div class="text-danger">Please select a department.</div>
                     }
                 </div>
 
+                <!-- Driver License Input -->
                 <div class="form-group mt-2">
                     <label for="driver_license" class="form-label fw-bold text-primary">Driver License:</label>
                     <input type="text" class="form-control" id="driver_license" name="driver_license" minlength="5"
                         maxlength="5" required [(ngModel)]="driver.driver_license" #driverLicense="ngModel">
+
                     @if(driverLicense.invalid && driverLicense.touched) {
                         <div class="text-danger">Driver license is required (5 characters).</div>
                     }
                 </div>
 
+                <!-- Driver Status -->
                 <div class="form-group mt-2">
                     <label class="form-label fw-bold text-primary">Driver is active?</label><br>
                     <div class="form-check form-check-inline">
-                      <input type="radio" class="form-check-input" id="yes" value="yes" name="driver_is_active"
-                        required [(ngModel)]="driver.driver_is_active" #driverIsActive="ngModel">
-                      <label class="form-check-label" for="yes">Yes</label>
+                        <input type="radio" class="form-check-input" id="yes" value="yes" name="driver_is_active"
+                            required [(ngModel)]="driver.driver_is_active" #driverIsActive="ngModel">
+                        <label class="form-check-label" for="yes">Yes</label>
                     </div>
 
                     <div class="form-check form-check-inline">
-                      <input type="radio" class="form-check-input" id="no" value="no" name="driver_is_active"
-                        required [(ngModel)]="driver.driver_is_active">
-                      <label class="form-check-label" for="no">No</label>
+                        <input type="radio" class="form-check-input" id="no" value="no" name="driver_is_active" required
+                            [(ngModel)]="driver.driver_is_active"  #driverIsActive="ngModel">
+                        <label class="form-check-label" for="no">No</label>
                     </div>
-                  </div>
-                <div>
 
+                    @if(driverIsActive.invalid && driverIsActive.touched) {
+                        <div class="text-danger">Please select a driver status.</div>
+                    }
+                </div>
+
+                <div>
                     <input class="btn btn-primary mt-2" type="submit" [disabled]="driverForm.invalid" value="Submit">
                 </div>
             </form>

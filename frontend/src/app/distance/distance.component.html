@@ -17,29 +17,31 @@
         </thead>
         <tbody>
             @for (package of packages; track package; let i = $index) {
-            <tr>
-            <td class="text-break">{{ package._id }}</td>
-            <td class="text-break">{{ package.package_id }}</td>
-            <td class="text-break">{{ package.package_title }}</td>
-            <td class="text-break">{{ package.package_weight }}</td>
-            <td class="text-break">{{ package.package_destination }}</td>
-            <td class="text-break">{{ package.package_description }}</td>
-            <td class="text-break">{{ package.created_at }}</td>
-            <td class="text-break">{{ package.is_allocated ? 'Yes' : 'No' }}</td>
-            <td>
-              <button class="btn btn-danger" (click)="sendDestination(package._id, package.package_destination)">Distance</button>
-              <div *ngIf="distance && selectedPackageId === package._id">
-                <h4>{{ distance }}</h4>
-            </div>
-            </td>
-        </tr>
+              <tr>
+                <td class="text-break">{{ package._id }}</td>
+                <td class="text-break">{{ package.package_id }}</td>
+                <td class="text-break">{{ package.package_title }}</td>
+                <td class="text-break">{{ package.package_weight }}</td>
+                <td class="text-break">{{ package.package_destination }}</td>
+                <td class="text-break">{{ package.package_description }}</td>
+                <td class="text-break">{{ package.created_at }}</td>
+                <td class="text-break">{{ package.is_allocated ? 'Yes' : 'No' }}</td>
+                <td>
+                  <button class="btn btn-danger" (click)="sendDestination(package._id, package.package_destination)">Distance</button>
+                  @if (distance && selectedPackageId === package._id) {
+                    <h4>{{ distance }}</h4>
+                  }
+              </td>
+              </tr>
             }
         </tbody>
       </table>
     </div>
   
-    <div *ngIf="packages.length === 0" class="alert alert-info mt-3" role="alert">
-      No packages available.
-    </div>
+    @if (packages && packages.length > 0) {
+      <div *ngIf="packages.length === 0" class="alert alert-info mt-3" role="alert">
+        No packages available.
+      </div>
+    }
   </div>
   

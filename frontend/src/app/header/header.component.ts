@@ -30,7 +30,6 @@ export class HeaderComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    // Unsubscribe to avoid memory leaks
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }

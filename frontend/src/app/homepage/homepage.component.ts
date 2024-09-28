@@ -21,7 +21,6 @@ export class HomepageComponent implements OnInit {
   loadCount(): void {
     this.utilsService.getCount().subscribe(
       (response: any) => {
-        console.log(response);
         this.driverCount = response.driverCount;
         this.packageCount = response.packageCount;
       },

@@ -57,7 +57,6 @@ export class TextToSpeechComponent implements OnDestroy {
     this.socket.emit('textToSpeech', request);
   }
 
-  // Utility function to convert base64 to Blob
   private base64ToBlob(base64: string, mimeType: string) {
     const byteCharacters = atob(base64);
     const byteNumbers = new Array(byteCharacters.length).fill(0).map((_, i) => byteCharacters.charCodeAt(i));
@@ -66,7 +65,6 @@ export class TextToSpeechComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    // Clean up the socket connection when the component is destroyed
     if (this.socket) {
       this.socket.disconnect();
     }

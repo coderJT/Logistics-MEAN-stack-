@@ -1,11 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthenticationService } from './authentication.service'; // Add if headers are needed
+import { AuthenticationService } from './authentication.service'; 
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class StatisticsService {
 
   private apiUrl = 'http://localhost:8080/api/v1/statistics';

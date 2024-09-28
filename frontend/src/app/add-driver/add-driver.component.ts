@@ -11,16 +11,16 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   styleUrls: ['./add-driver.component.css']
 })
+
 export class AddDriverComponent {
 
   driver: Driver = new Driver();
 
-  constructor(private driversDB: DriverService, private router: Router) {}
+  constructor(private driversDB: DriverService, private router: Router) { }
 
   addDriver() {
     this.driversDB.addDriver(this.driver).subscribe(
       response => {
-        console.log('Driver added successfully', response);
         this.router.navigate(['list-drivers']);
       },
       error => {

@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { PackageService } from '../package.service';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-package',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule],
   templateUrl: './update-package.component.html',
   styleUrl: './update-package.component.css'
 })

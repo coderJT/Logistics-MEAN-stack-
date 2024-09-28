@@ -3,12 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { PackageService } from '../package.service'; 
 import { DriverService } from '../driver.service';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-packages',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule],
   templateUrl: './list-packages.component.html',
   styleUrls: ['./list-packages.component.css']
 })

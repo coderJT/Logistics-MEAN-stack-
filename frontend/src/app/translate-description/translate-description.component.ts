@@ -13,10 +13,10 @@ import { PackageService } from '../package.service';
 
 export class TranslateDescriptionComponent implements OnInit {
   packages: any[] = [];
-  selectedLanguage: string = 'es'; 
+  selectedLanguage: string = 'es';
   translatedDescription: string | null = null;
   private socket: any;
-  selectedPackage : string | null = null;
+  selectedPackage: string | null = null;
 
   languages: { code: string, name: string }[] = [
     { code: 'en', name: 'English' },
@@ -25,7 +25,7 @@ export class TranslateDescriptionComponent implements OnInit {
   ];
 
   constructor(private packageService: PackageService) {
-    this.socket = io('http://localhost:8080'); 
+    this.socket = io('http://localhost:8080');
   }
 
   ngOnInit(): void {
@@ -41,32 +41,31 @@ export class TranslateDescriptionComponent implements OnInit {
 
   translateDescription(packageItem: any) {
     const translationRequest = {
-        description: packageItem.package_description,
-        targetLanguage: this.selectedLanguage
+      description: packageItem.package_description,
+      targetLanguage: this.selectedLanguage
     };
     this.socket.emit("translateRequest", translationRequest);
 
     this.socket.on("translationResponse", (data: any) => {
-        if (data.error) {
-            console.error(data.error);
-            packageItem.translatedDescription = null; 
-        } else {
-          console.log(data.translation);
-          packageItem.translatedDescription = data.translation; 
-          this.selectedPackage = packageItem._id;
-          console.log(this.selectedPackage)
-        }
+      if (data.error) {
+        console.error(data.error);
+        packageItem.translatedDescription = null;
+      } else {
+        console.log(data.translation);
+        packageItem.translatedDescription = data.translation;
+        this.selectedPackage = packageItem._id;
+        console.log(this.selectedPackage)
+      }
     });
-}
-
+  }
 
   listenForTranslations() {
     this.socket.on("translationResponse", (data: any) => {
       if (data.error) {
         console.error(data.error);
-        this.translatedDescription = null; 
+        this.translatedDescription = null;
       } else {
-        this.translatedDescription = data.translation; 
+        this.translatedDescription = data.translation;
       }
     });
   }

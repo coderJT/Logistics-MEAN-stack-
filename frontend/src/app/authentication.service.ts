@@ -7,8 +7,11 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthenticationService {
+
   private apiUrl = 'http://localhost:8080/api/v1';
+
   private loggedInSubject = new BehaviorSubject<boolean>(this.isTokenAvailable());
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -19,12 +22,12 @@ export class AuthenticationService {
 
   setToken(token: string): void {
     localStorage.setItem('token', token);
-    this.loggedInSubject.next(true); // Update login state
+    this.loggedInSubject.next(true); 
   }
 
   clearToken(): void {
     localStorage.removeItem('token');
-    this.loggedInSubject.next(false); // Update login state
+    this.loggedInSubject.next(false); 
   }
 
   getToken(): string | null {
@@ -32,7 +35,7 @@ export class AuthenticationService {
   }
 
   isLoggedIn(): Observable<boolean> {
-    return this.loggedInSubject.asObservable(); // Observable for the login state
+    return this.loggedInSubject.asObservable(); 
   }
 
   login(credentials: { username: string, password: string }): Observable<any> {
@@ -52,7 +55,7 @@ export class AuthenticationService {
   logout(): Observable<void> {
     this.clearToken();
     this.router.navigate(['/login']);
-    return of(); // Return an observable
+    return of(); 
   }
 
   setAuthHeaders(): HttpHeaders {
