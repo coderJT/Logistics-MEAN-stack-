@@ -18,7 +18,8 @@
                     }
                 </select>
             </div>
-            <form #driverForm="ngForm" (ngSubmit)="updateDriver()" novalidate *ngIf="driver" style="margin:20px">
+            @if (driver) {
+            <form #driverForm="ngForm" (ngSubmit)="updateDriver()" novalidate style="margin:20px">
                 <!-- Driver Name (Disabled) -->
                 <div class="form-group">
                     <label for="driver_name" class="form-label fw-bold text-primary">Driver Name:</label>
@@ -53,6 +54,7 @@
                     <input class="btn btn-primary mt-2" type="submit" [disabled]="driverForm.invalid" value="Update">
                 </div>
             </form>
+        }
         </div>
     </div>
 

@@ -18,7 +18,9 @@
                     }
                 </select>
             </div>
-            <form #packageForm="ngForm" (ngSubmit)="updatePackage()" novalidate *ngIf="package" style="margin:20px">
+            @if (package) {
+                
+            <form #packageForm="ngForm" (ngSubmit)="updatePackage()" novalidate style="margin:20px">
                 
                 <div class="form-group">
                     <label for="driver_name" class="form-label fw-bold text-primary">Package Title:</label>
@@ -39,6 +41,7 @@
                     <input class="btn btn-primary mt-2" type="submit" [disabled]="packageForm.invalid" value="Update">
                 </div>
             </form>
+        }
         </div>
     </div>
 

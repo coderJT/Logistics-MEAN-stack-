@@ -49,12 +49,15 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let package of driver.assigned_packages">
-                                                <td>{{ package.package_id }}</td>
-                                                <td>{{ package.package_title }}</td>
-                                                <td>{{ package.package_weight }}</td>
-                                                <td>{{ package.package_destination }}</td>
-                                            </tr>
+                                            @for (package of driver.assigned_packages; track package; let i = $index) {
+                                                <tr>
+                                                    <td>{{ package.package_id }}</td>
+                                                    <td>{{ package.package_title }}</td>
+                                                    <td>{{ package.package_weight }}</td>
+                                                    <td>{{ package.package_destination }}</td>
+                                                </tr>
+                                            }
+
                                         </tbody>
                                     </table>
                                 </div>
