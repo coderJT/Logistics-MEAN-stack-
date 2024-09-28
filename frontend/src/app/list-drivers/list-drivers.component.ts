@@ -2,16 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DriverService } from '../driver.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-drivers',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './list-drivers.component.html',
   styleUrls: ['./list-drivers.component.css']
 })
 export class ListDriversComponent implements OnInit {
   drivers: any[] = [];
+  selectedDriverId: string | null = null; 
 
   constructor(private driversDB: DriverService, private router: Router) {}
 
@@ -52,5 +54,13 @@ export class ListDriversComponent implements OnInit {
 
   getAssignedPackageIds(packages: any[]): string {
     return packages.map(packageObj => packageObj._id).join(', ');
+  }
+  
+  showPackages(driverId: string) {
+    if (this.selectedDriverId === driverId) {
+      this.selectedDriverId = null; 
+    } else {
+      this.selectedDriverId = driverId; 
+    }
   }
 }

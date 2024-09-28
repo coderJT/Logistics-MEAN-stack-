@@ -12,14 +12,12 @@
                     <th scope="col" class="text-wrap" style="width: 10%;">License</th>
                     <th scope="col" class="text-wrap" style="width: 10%;">Is Active</th>
                     <th scope="col" class="text-wrap" style="width: 10%;">Created At</th>
-                    <th scope="col" class="text-wrap" style="width: 20%;">Assigned Packages</th>
-                    <th scope="col" class="text-wrap" style="width: 10%;">Actions</th>
+                    <th scope="col" class="text-wrap" style="width: 20%;">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @for (driver of drivers; track driver; let i = $index) {                
                 <tr>
-                    <!-- Hide Mongoose ID and Created At on small screens -->
                     <td class="text-break">{{ driver._id }}</td>
                     <td class="text-break">{{ driver.driver_id }}</td>
                     <td class="text-break">{{ driver.driver_name }}</td>
@@ -27,9 +25,41 @@
                     <td class="text-break">{{ driver.driver_license }}</td>
                     <td class="text-break">{{ driver.driver_is_active ? 'Yes' : 'No' }}</td>
                     <td class="text-break">{{ driver.created_at }}</td>
-                    <td class="text-break">{{ getAssignedPackageIds(driver.assigned_packages) }}</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" (click)="deleteDriver(driver._id)">Delete</button>
+                    <td class="text-center">
+                        <button class="btn btn-danger btn-sm m-1" (click)="deleteDriver(driver._id)">Delete</button>
+                        <button
+                        class="btn btn-primary btn-sm m-1"
+                        (click)="showPackages(driver._id)">
+                        {{ selectedDriverId === driver._id ? 'Hide Packages' : 'View Packages' }}
+                      </button>
+                    </td>
+                </tr>
+
+                <tr *ngIf="driver._id === selectedDriverId">
+                    <td colspan="9">
+                        <div *ngIf="driver.assigned_packages && driver.assigned_packages.length > 0">
+                            <table class="table table-bordered table-hover mt-3">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Package ID</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Weight</th>
+                                        <th scope="col">Destination</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let package of driver.assigned_packages">
+                                        <td>{{ package.package_id }}</td>
+                                        <td>{{ package.package_title }}</td>
+                                        <td>{{ package.package_weight }}</td>
+                                        <td>{{ package.package_destination }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div *ngIf="!driver.assigned_packages || driver.assigned_packages.length === 0">
+                            <p class="text-danger">No Packages Found</p>
+                        </div>
                     </td>
                 </tr>
                 }
