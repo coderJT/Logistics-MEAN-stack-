@@ -44,10 +44,22 @@
                     <li><a class="dropdown-item" routerLink="/list-packages">List Packages</a></li>
                     <li><a class="dropdown-item" routerLink="/delete-package">Delete Package</a></li>
                     <li><a class="dropdown-item" routerLink="/update-package">Update Package</a></li>
-
                 </ul>
-                
             </li>
+
+            <!-- Dropdown for cloud services -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="cloudDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Cloud Services
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cloudDropdown">
+                <li><a class="dropdown-item" routerLink="/text-to-speech">Text to Speech</a></li>
+                <li><a class="dropdown-item" routerLink="/translate-description">Translate description</a></li>
+                <li><a class="dropdown-item" routerLink="/distance">Distance</a></li>
+            </ul>   
+            </li>
+
             <li class="nav-item">
                 @if(userLoggedIn) {
                     <a class="nav-link" style="cursor: pointer;" (click)="logout()">Logout</a>
