@@ -44,6 +44,12 @@ const bcrypt = require('bcrypt');
 const { checkAuthenticationAPI } = require('./middleware/authenticate');
 const driver = require('./models/driver');
 const package = require('./models/package');
+const { Translate } = require('@google-cloud/translate').v2;
+const translate = new Translate();
+const textToSpeech = require("@google-cloud/text-to-speech");
+const textToSpeechClient = new textToSpeech.TextToSpeechClient();
+const axios = require('axios');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const JWT_KEY = "secret_key_in_env";
 
@@ -66,9 +72,61 @@ app.use(cors({
  */
 mongoose.connect('mongodb://localhost:27017/pdma')
     .then(() => {
-        app.listen(PORT_NUMBER, () => {
+        const server = app.listen(PORT_NUMBER, () => {
             console.log(`Server is running on port ${PORT_NUMBER}`);
+        })
+        
+        const io = require('socket.io')(server, {
+            cors: {
+              origin: 'http://localhost:4200',
+              methods: ['GET', 'POST', 'PUT', 'DELETE'],
+              credentials: true
+            }
+          });
+        io.on('connection', (socket) => {
+            console.log(`Connection established with ${socket.id}`);
+        
+        socket.on("translateRequest", async (data) => {
+            const { description, targetLanguage } = data;
+            try {
+                const [translation] = await translate.translate(description, targetLanguage);
+                socket.emit("translationResponse", { translation });
+            } catch (error) {
+                console.error("Translation error:", error);
+                socket.emit("translationResponse", { error: "Translation failed." });
+            }
         });
+
+        socket.on('textToSpeech', async (data) => {
+            const request = {
+                input: { text: data.text },
+                voice: { languageCode: data.voice.languageCode, ssmlGender: data.voice.ssmlGender },
+                audioConfig: { audioEncoding: 'MP3' }
+            };
+    
+            try {
+                const [response] = await textToSpeechClient.synthesizeSpeech(request);
+                socket.emit('speechResult', { audioContent: response.audioContent.toString('base64') });
+            } catch (error) {
+                console.error('Error during Text-to-Speech conversion:', error);
+                socket.emit('speechResult', { error: 'Conversion failed' });
+            }
+        });
+
+        socket.on("calculateDistance", async ({ packageId, destination }) => {
+            try {
+              const distance = await calculateDistance('Melbourne', destination); 
+              socket.emit("distanceResult", { packageId, distance });
+            } catch (error) {
+              console.error('Error calculating distance:', error);
+              socket.emit("distanceResult", { packageId, distance: -1 }); 
+            }
+          });
+
+        socket.on("disconnect", () => {
+            console.log("User disconnected");
+        });    
+    })
     })
     .catch(error => console.error('Database connection error:', error));
 
@@ -91,13 +149,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static("node_modules/bootstrap/dist/css"));
 app.use(express.static("node_modules/bootstrap/dist/js"));
 
-/**
- * EJS templating setup.
- */
-
 const generateJWTToken = (username) => {
     return jwt.sign({ username }, JWT_KEY, {expiresIn: '24h'});
 }
+
+async function calculateDistance(origin, destination) {
+    const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    
+    const prompt = `What is the distance between ${origin} and ${destination}? Please provide the answer in km. You can use online tools to give me the correct answer. Only return the numbers, no text.`;
+    
+    const result = await model.generateContent(prompt);
+    return result.response.text();
+}
+
 
 app.post('/api/v1/signup', async (req, res) => {
     const { username, password, confirmPassword } = req.body;
