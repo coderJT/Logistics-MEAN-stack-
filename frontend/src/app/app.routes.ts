@@ -15,6 +15,9 @@ import { ListDriversByDepartmentComponent } from './list-drivers-by-department/l
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { authenticationGuard } from './guards/authentication.guard';  
+import { TranslateDescriptionComponent } from './translate-description/translate-description.component';
+import { TextToSpeechComponent } from './text-to-speech/text-to-speech.component';
+import { DistanceComponent } from './distance/distance.component';
 
 export const routes: Routes = [
     { path: "", component: HomepageComponent },
@@ -31,5 +34,8 @@ export const routes: Routes = [
     { path: 'invalid-data', component: InvalidDataComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },  
+    { path: 'translate-description', component: TranslateDescriptionComponent },
+    { path: 'text-to-speech', component: TextToSpeechComponent },
+    { path: 'distance', component: DistanceComponent },
     { path: '**', component: PageNotFoundComponent },
 ];
