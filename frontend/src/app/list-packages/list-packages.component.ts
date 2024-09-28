@@ -1,33 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PackageService } from '../package.service'; // Ensure this service exists
+import { PackageService } from '../package.service'; 
+import { DriverService } from '../driver.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-packages',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './list-packages.component.html',
   styleUrls: ['./list-packages.component.css']
-})
-export class ListPackagesComponent implements OnInit {
+})export class ListPackagesComponent implements OnInit {
   packages: any[] = [];
+  selectedPackageId: string | null = null;
+  selectedDriverId: string | null = null;
+  driver: any = null;
 
-  constructor(private packageService: PackageService, private router: Router) {}
+  constructor(
+    private driverService: DriverService,
+    private packageService: PackageService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadPackages();
   }
 
   loadPackages() {
-    this.packages = [];
     this.packageService.getPackages().subscribe(
       (response: any) => {
-        for (let packageObj of response) {
-          this.packages.push(packageObj);
-        }
+        this.packages = response;
       },
-      error => {
+      (error) => {
         console.error('Failed to load packages:', error);
       }
     );
@@ -43,9 +48,32 @@ export class ListPackagesComponent implements OnInit {
             this.router.navigate(['/invalid-data']);
           }
         },
-        error => {
+        (error) => {
           console.error('Failed to delete package:', error);
           this.router.navigate(['/invalid-data']);
+        }
+      );
+    }
+  }
+
+  showDriver(packageId: string, driverId: string) {
+    if (this.selectedPackageId === packageId) {
+      // If the same package is clicked again, hide the driver details
+      this.selectedPackageId = null;
+      this.selectedDriverId = null;
+      this.driver = null;
+    } else {
+      // Set selected package and driver
+      this.selectedPackageId = packageId;
+      this.selectedDriverId = driverId;
+
+      // Fetch driver details
+      this.driverService.getDriverById(driverId).subscribe(
+        (response: any) => {
+          this.driver = response;
+        },
+        (error) => {
+          console.error('Failed to load driver:', error);
         }
       );
     }
