@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { PackageService } from '../package.service'; 
 import { DriverService } from '../driver.service';
 import { Router } from '@angular/router';
+import { GramPipe } from '../pipes/gram.pipe';
 
 @Component({
   selector: 'app-list-packages',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, GramPipe],
   templateUrl: './list-packages.component.html',
   styleUrls: ['./list-packages.component.css']
 })

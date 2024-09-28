@@ -20,7 +20,7 @@
                     <tr>
                         <td class="text-break">{{ driver._id }}</td>
                         <td class="text-break">{{ driver.driver_id }}</td>
-                        <td class="text-break">{{ driver.driver_name }}</td>
+                        <td class="text-break">{{ driver.driver_name | uppercase }}</td>
                         <td class="text-break">{{ driver.driver_department }}</td>
                         <td class="text-break">{{ driver.driver_license }}</td>
                         <td class="text-break">{{ driver.driver_is_active ? 'Yes' : 'No' }}</td>

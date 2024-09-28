@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DriverService } from '../driver.service';
 import { Router } from '@angular/router';
+import { UppercasePipe } from '../pipes/uppercase.pipe';
 
 @Component({
   selector: 'app-list-drivers',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, UppercasePipe],
   templateUrl: './list-drivers.component.html',
   styleUrls: ['./list-drivers.component.css']
 })
