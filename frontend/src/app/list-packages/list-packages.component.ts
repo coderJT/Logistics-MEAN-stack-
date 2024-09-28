@@ -11,7 +11,9 @@ import { CommonModule } from '@angular/common';
   imports: [FormsModule, CommonModule],
   templateUrl: './list-packages.component.html',
   styleUrls: ['./list-packages.component.css']
-})export class ListPackagesComponent implements OnInit {
+})
+
+export class ListPackagesComponent implements OnInit {
   packages: any[] = [];
   selectedPackageId: string | null = null;
   selectedDriverId: string | null = null;
@@ -58,7 +60,7 @@ import { CommonModule } from '@angular/common';
 
   showDriver(packageId: string, driverId: string) {
     if (this.selectedPackageId === packageId) {
-      // If the same package is clicked again, hide the driver details
+
       this.selectedPackageId = null;
       this.selectedDriverId = null;
       this.driver = null;
