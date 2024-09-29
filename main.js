@@ -167,10 +167,6 @@ async function calculateDistance(origin, destination) {
 app.post('/api/v1/signup', async (req, res) => {
     const { username, password, confirmPassword } = req.body;
 
-    if (password != confirmPassword) {
-        return res.status(400).json({ error: "Passwords provided do not match" });
-    }
-
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         await db.collection('users').doc(username).set({
