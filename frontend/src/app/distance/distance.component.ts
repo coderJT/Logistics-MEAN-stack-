@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { PackageService } from '../package.service';
 import { io, Socket } from 'socket.io-client';
 
@@ -8,7 +8,17 @@ import { io, Socket } from 'socket.io-client';
   templateUrl: './distance.component.html',
   styleUrls: ['./distance.component.css']
 })
-export class DistanceComponent implements OnInit, OnDestroy {
+
+/**
+ * This component is responsible for finding the distance between 'Melbourne' and the package destination of a package.
+ * 
+ * This component allows user to select a package and the destination of the package is then sent to the backend to perform
+ * the calculation of distance. Once the response is received, the distance is then updated on the page.
+ * 
+ * @class DistanceComponent
+ */
+export class DistanceComponent {
+
   packages: any[] = [];
   private socket: Socket;
   selectedPackageId: string | null = null;
@@ -25,15 +35,12 @@ export class DistanceComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Load the packages on initialization.
+   * 
+   * @returns {void}
+   */
   ngOnInit(): void {
-    this.loadPackages();
-  }
-
-  ngOnDestroy(): void {
-    this.socket.disconnect(); 
-  }
-
-  loadPackages() {
     this.distance = 0;
     this.packageService.getPackages().subscribe(
       (response: any[]) => {
@@ -45,6 +52,22 @@ export class DistanceComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Disconnect the socket when the component is destroyed.
+   * 
+   * @returns {void}
+   */
+  ngOnDestroy(): void {
+    this.socket.disconnect(); 
+  }
+
+  /**
+   * This function is responsible for obtaining the distance between two packages.
+   * @param {string} packageId - Package mongoose id.
+   * @param {string} destination - Destination of the package.
+   * 
+   * @returns {void}
+   */
   sendDestination(packageId: string, destination: string): void {
     this.selectedPackageId = packageId;
     this.socket.emit('calculateDistance', { packageId, destination });
