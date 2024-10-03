@@ -3,7 +3,12 @@ import { AuthenticationService } from '../authentication.service';
 import { inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 
-export const authenticationGuard: CanActivateFn = (route, state) => {
+/**
+ * Guards the route if the user is not authenticated. If the user is authenticated, allows the route to be accessed.
+ *
+ * @returns {boolean} True if the user is authenticated, false otherwise.
+ */
+export const authenticationGuard: CanActivateFn = () => {
   const authService = inject(AuthenticationService);
   const router = inject(Router);
 
