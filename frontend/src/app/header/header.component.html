@@ -12,6 +12,7 @@
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+            
             <!-- Home Page -->
             <li class="nav-item active">
                 <a class="nav-link" routerLink="/">Home</a>
@@ -60,6 +61,7 @@
             </ul>   
             </li>
 
+            <!-- Dynamic login button -->
             <li class="nav-item">
                 @if(userLoggedIn) {
                     <a class="nav-link" style="cursor: pointer;" (click)="logout()">Logout</a>
@@ -69,6 +71,7 @@
                 }
             </li>
 
+            <!-- Statistics -->
             <li class="nav-item">
                 <a class="nav-link" routerLink="/statistics">Statistics</a>
             </li>
