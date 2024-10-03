@@ -3,12 +3,15 @@
     <div class="card-header bg-primary text-white">
       <h2 class="text-center">Select Package to be Deleted</h2>
     </div>
+    <!-- Main Form Body -->
     <div class="card-body">
       <form (ngSubmit)="deletePackage()">
         <div class="form-group">
           <label for="packageID" class="form-label fw-bold text-primary">Package ID:</label>
           <select class="form-control" id="package_mongoose_id" name="package_mongoose_id" required
             [(ngModel)]="package._id">
+
+            <!-- Package selection -->
             <option value="" disabled selected>Select a package</option>
             @for (package of packages; track package; let i = $index) {
               <option [ngValue]="package._id">
@@ -17,6 +20,8 @@
             }
           </select>
         </div>
+
+        <!-- Submission button -->
         <div class="text-center">
           <input class="btn btn-primary m-3" type="submit" value="Submit">
         </div>
