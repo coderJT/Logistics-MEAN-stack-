@@ -3,6 +3,8 @@
         <div class="card-header bg-primary text-white">
             <h2 class="text-center">Add Package</h2>
         </div>
+
+        <!-- Main Form Body -->
         <div class="card-body">
             <form #packageForm="ngForm" (ngSubmit)="addPackage()">
 
@@ -90,11 +92,11 @@
                     }
                 </div>
 
+                <!-- Submission button -->
                 <div class="text-center">
                     <button class="btn btn-primary mt-4 m-3" type="submit"
                         [disabled]="packageForm.invalid">Submit</button>
                 </div>
-
             </form>
         </div>
     </div>
