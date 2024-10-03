@@ -3,6 +3,8 @@
         <div class="card-header bg-primary text-white">
             <h2 class="text-center">Add Driver</h2>
         </div>
+
+        <!-- Main Form Body -->
         <div class="card-body">
             <form #driverForm="ngForm" (ngSubmit)="addDriver()" novalidate>
 
@@ -65,6 +67,7 @@
                     }
                 </div>
 
+                <!-- Submission button -->
                 <div>
                     <input class="btn btn-primary mt-2" type="submit" [disabled]="driverForm.invalid" value="Submit">
                 </div>
