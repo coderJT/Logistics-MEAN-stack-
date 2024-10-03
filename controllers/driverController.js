@@ -206,7 +206,7 @@ module.exports = {
             });
 
         } catch (err) {
-            res.json({ error: "Failed to delete a driver: " + err.message });
+            res.status(500).json({ error: "Failed to delete a driver: " + err.message });
         }
     }
 }
