@@ -48,62 +48,71 @@ module.exports = {
             res.json(packages);
 
         } catch (err) {
-            res.json({ error: "Failed to get all packages: " + err.message });
+            res.status(500).json({ error: "Failed to get all packages: " + err.message });
         }
     },
 
+    /**
+     * Controller method that retrieves package by ID provided.
+     * @description This method queries the database for a package with the given ID.
+     * #description Read counter will increase by 1 for this operation.
+     * 
+     * @param {Object} req - Express request object.
+     * @param {Object} res - Express response object.
+     * @returns {Promise<void>} Returns a JSON response with the requested package or an error message.
+     */
     getPackageById: async function (req, res) {
         try {
             let package = await Package.findOne({ _id: req.params.id })
             await incrementRead();
 
             if (!package)
-                return res.status(404).json({ error: "Package not found with ID: " + req.params.id });  
+                return res.status(404).json({ error: "Package not found with ID: " + req.params.id });
 
             res.json(package);
         } catch (err) {
-            res.json({ error: "Failed to get package with ID: " + req.params.id });
+            res.status(500).json({ error: "Failed to get package with ID: " + req.params.id });
         }
     },
 
-     /**
-     * Controller method that creates a new package.
-     * @description This method will take request body and create a new package from it.
-     * @description Package ID will be generated.
-     * @description Create counter will increase by 1 for this operation.
-     * 
-     * @async
-     * @function getAll
-     * @param {Object} req - Express request object.
-     * @param {Object} res - Express response object.   
-     * @returns {Promise<void>} Returns a JSON response with the list of packages available or an error message.
-     */
+    /**
+    * Controller method that creates a new package.
+    * @description This method will take request body and create a new package from it.
+    * @description Package ID will be generated.
+    * @description Create counter will increase by 1 for this operation.
+    * 
+    * @async
+    * @function getAll
+    * @param {Object} req - Express request object.
+    * @param {Object} res - Express response object.   
+    * @returns {Promise<void>} Returns a JSON response with the list of packages available or an error message.
+    */
     createOne: async function (req, res) {
         try {
             let data = req.body;
             data.package_id = generatePackageID();
-    
+
             let newPackage = new Package(data);
-            
+
             await newPackage.save();
-            
+
             await Driver.findOneAndUpdate(
                 { _id: newPackage.driver_mongoose_id },
                 { $push: { assigned_packages: newPackage._id } }
             );
-            
+
             await incrementCreate();
 
             res.json({
                 _id: newPackage._id,
                 package_id: newPackage.package_id,
             });
-    
+
         } catch (err) {
             res.status(500).json({ error: "Failed to create a new package: " + err.message });
         }
     },
-    
+
     /**
      * Controller method that updates an existing package.
      * @description This method will take request body and update an existing package based on package mongoose id value provided.
@@ -136,9 +145,7 @@ module.exports = {
             });
 
         } catch (err) {
-            res.json({
-                status: "Failed to update package: " + err.message
-            })
+            res.status(500).json({ status: "Failed to update package: " + err.message })
         }
     },
 
@@ -156,9 +163,9 @@ module.exports = {
     deleteOne: async function (req, res) {
         try {
             const _id = req.params.id;
-            
+
             let result = await Package.deleteOne({ _id: _id });
-            
+
             if (!result) {
                 return res.status(404).json({ error: "Package not found" });
             }
@@ -167,11 +174,11 @@ module.exports = {
 
             res.json({
                 acknowledged: result.acknowledged,
-                deletedCount: result.deletedCount 
+                deletedCount: result.deletedCount
             });
 
         } catch (err) {
-            res.json({ error: "Failed to delete a package:: " + err.message });
+            res.status(500).json({ error: "Failed to delete a package:: " + err.message });
         }
     }
 }
