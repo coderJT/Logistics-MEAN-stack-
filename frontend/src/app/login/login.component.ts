@@ -10,13 +10,32 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
+
+/**
+ * This is the login component that provides an interface for user to login and be authenticated.
+ * 
+ * @component LoginComponent
+ */
 export class LoginComponent {
   username: string = "";
   password: string = "";
 
+  /**
+   * 
+   * Constructor that injects the authService, and Router services for handling
+   * authentication-related operations and to navigate between routes.
+   * 
+   * @param authService - Service used to perform authentication tasks.
+   * @param router - Router for navigating to other routes after successful operations.
+   */
   constructor(private authService: AuthenticationService, private router: Router) { }
 
-  onSubmit() {
+  /**
+   * Logs in the user and navigates to the home page.
+   * 
+   * @returns {void}
+   */
+  onSubmit(): void {
     this.authService.login({username: this.username, password: this.password}).subscribe(
       (response) => {
         this.authService.setToken(response.token);

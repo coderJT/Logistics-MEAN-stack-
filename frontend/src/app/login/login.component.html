@@ -3,23 +3,28 @@
       <div class="card-header bg-primary text-white">
         <h2 class="text-center">Login</h2>
       </div>
+      <!-- Main Form Body -->
       <div class="card-body m-4">
         <form (ngSubmit)="onSubmit()">
+          <!-- Username -->
           <div class="form-group">
             <label for="username" class="form-label fw-bold text-primary">Username</label>
             <input type="text" class="form-control input-lg" id="username" name="username" [(ngModel)]="username" required>
           </div>
   
+          <!-- Password -->
           <div class="form-group mt-4">
             <label for="password" class="form-label fw-bold text-primary">Password</label>
             <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" required>
           </div>
   
+          <!-- Submission button -->
           <div class="text-center">
             <input class="btn btn-primary mt-4 m-3" type="submit" value="Login">
           </div>
         </form>
   
+        <!-- Additional Signup button -->
         <div class="d-flex">
           <a class="btn btn-secondary" [routerLink]="['/signup']">Sign Up</a>
         </div>
