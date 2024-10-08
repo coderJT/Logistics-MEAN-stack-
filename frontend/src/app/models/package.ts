@@ -1,14 +1,22 @@
+/**
+ * Package model.
+ */
 export class Package {
-    _id?: string;
+    _id: string;
+    created_at?: string;
     package_id?: string;
     package_title: string;
     package_weight: number;
     package_destination: string;
     package_description: string;
     is_allocated: boolean;
-    driver_mongoose_id?: string;
+    driver_mongoose_id: string;
 
+    /**
+     * Constructor to create a new package.
+     */
     constructor() {
+        this._id = "";
         this.package_id = "";
         this.package_title = "";
         this.package_weight = 0;
