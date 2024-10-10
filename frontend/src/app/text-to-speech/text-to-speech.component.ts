@@ -1,26 +1,36 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
-import { CommonModule } from '@angular/common';
 import { DriverService } from '../driver.service';
+import { Driver } from '../models/driver';
 
 @Component({
   selector: 'app-text-to-speech',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './text-to-speech.component.html',
   styleUrls: ['./text-to-speech.component.css']
 })
-export class TextToSpeechComponent implements OnDestroy {
+
+/**
+ * This component is responsible for adding the text to speech component.
+ * 
+ * This component provides helps to list out the drivers and provides an option
+ * to convert each driver's license to speech format.
+ */
+export class TextToSpeechComponent {
   audioUrl: string | null = null; 
   private socket: Socket;
-  drivers: any[] = [];
+  drivers: Driver[] = [];
   selectedDriver: string | null = null;
 
+  /**
+   * Constructor that injects the DriverService for handling driver-related operations.
+   * It also helps to establish a socket.io connection to the server.
+   * @param driversDB - Driver service.
+   */
   constructor(private driversDB: DriverService) {
-    // Initialize the socket connection
-    this.socket = io('http://localhost:8080'); // Replace with your server URL
 
-    // Listen for speech results from the server
+    this.socket = io('http://localhost:8080'); 
+
     this.socket.on('speechResult', (data: { audioContent: string }) => {
       if (data.audioContent) {
         const audioBlob = this.base64ToBlob(data.audioContent, 'audio/mp3');
@@ -29,11 +39,12 @@ export class TextToSpeechComponent implements OnDestroy {
     });
   }
 
+  /**
+   * Load drivers on initialization.
+   * 
+   * @returns {void}
+   */
   ngOnInit(): void {
-    this.loadDrivers();
-  }
-
-  loadDrivers() {
     this.drivers = [];
     this.driversDB.getDrivers().subscribe(
       (response: any) => {
@@ -46,10 +57,16 @@ export class TextToSpeechComponent implements OnDestroy {
       }
     )
   }
-
-  convert(driver: any) {
+  /**
+   * This method helps to send a request to the server for conversion purposes.
+   * 
+   * @param driver - Drivers to have its license converted to speech.
+   * 
+   * @returns {void}
+   */
+  convert(driver: any): void {
     const request = {
-      text: driver.driver_id,
+      text: driver.driver_license,
       voice: { languageCode: 'en-US', ssmlGender: 'NEUTRAL' }
     };
 
@@ -57,6 +74,14 @@ export class TextToSpeechComponent implements OnDestroy {
     this.socket.emit('textToSpeech', request);
   }
 
+  /**
+   * Method to convert base64 to blob.
+   * 
+   * @param base64 - Base64 representation of the audio file.
+   * @param mimeType - Mime type of the audio file.
+   * 
+   * @returns Blob representation of the audio file.
+   */
   private base64ToBlob(base64: string, mimeType: string) {
     const byteCharacters = atob(base64);
     const byteNumbers = new Array(byteCharacters.length).fill(0).map((_, i) => byteCharacters.charCodeAt(i));
@@ -64,7 +89,12 @@ export class TextToSpeechComponent implements OnDestroy {
     return new Blob([byteArray], { type: mimeType });
   }
 
-  ngOnDestroy() {
+  /**
+   * Closes the socket connection on destory of this component.
+   * 
+   * @returns {void}
+   */
+  ngOnDestroy(): void {
     if (this.socket) {
       this.socket.disconnect();
     }
