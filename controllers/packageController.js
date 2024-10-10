@@ -92,7 +92,15 @@ module.exports = {
             let data = req.body;
             data.package_id = generatePackageID();
 
-            let newPackage = new Package(data);
+            let newPackage = new Package({
+                package_title: data.package_title,
+                package_weight: data.package_weight,
+                package_destination: data.package_destination,
+                package_description: data.package_description,
+                is_allocated: data.is_allocated,
+                driver_mongoose_id: data.driver_mongoose_id,
+                package_id: data.package_id
+            });
 
             await newPackage.save();
 

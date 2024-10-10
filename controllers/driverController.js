@@ -118,7 +118,14 @@ module.exports = {
             let data = req.body;
             data.driver_id = generateDriverID();
 
-            let driver = new Driver(data);
+            let driver = new Driver({
+                driver_id: data.driver_id,
+                driver_license: data.driver_license,
+                driver_department: data.driver_department,
+                driver_is_active: data.driver_is_active,
+                driver_name: data.driver_name
+            });
+
             await driver.save();
             await incrementCreate();
 
