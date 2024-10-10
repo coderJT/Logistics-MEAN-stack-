@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { StatisticsService } from '../statistics.service';
 import { Router } from '@angular/router';
 
@@ -9,19 +9,31 @@ import { Router } from '@angular/router';
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.css']
 })
-export class StatisticsComponent implements OnInit {
+
+/**
+ * This component is responsible for displaying the statistics of the CRUD operations.
+ * 
+ * @component StatisticsComponent
+ */
+export class StatisticsComponent {
   createCount: number = 0;
   readCount: number = 0;
   updateCount: number = 0;
   deleteCount: number = 0;
 
+  /**
+   * Constructor that injects the StatisticsService and Router for handling statistics-related operations
+   * and to navigate between routes.
+   * 
+   * @param {StatisticService} statisticsService - Service used to perform database operations on statistics.
+   * @param {Router} router - Router for navigating to other routes after successful operations.
+   */
   constructor(private statisticsService: StatisticsService, private router: Router) {}
 
+  /**
+   * This method loads the statistics of the CRUD operations on iniitialization of the component.
+   */
   ngOnInit(): void {
-    this.loadStatistics();
-  }
-
-  loadStatistics() {
     this.statisticsService.getStatistics().subscribe(
       (response: any) => {
         this.createCount = response.createCount;
