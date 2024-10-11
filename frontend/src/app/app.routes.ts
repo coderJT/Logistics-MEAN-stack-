@@ -34,8 +34,8 @@ export const routes: Routes = [
     { path: 'invalid-data', component: InvalidDataComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },  
-    { path: 'translate-description', component: TranslateDescriptionComponent },
-    { path: 'text-to-speech', component: TextToSpeechComponent },
-    { path: 'distance', component: DistanceComponent },
-    { path: '**', component: PageNotFoundComponent },
+    { path: 'translate-description', component: TranslateDescriptionComponent, canActivate: [authenticationGuard]  },
+    { path: 'text-to-speech', component: TextToSpeechComponent, canActivate: [authenticationGuard]  },
+    { path: 'distance', component: DistanceComponent, canActivate: [authenticationGuard] },
+    { path: '**', component: PageNotFoundComponent, canActivate: [authenticationGuard] },
 ];
