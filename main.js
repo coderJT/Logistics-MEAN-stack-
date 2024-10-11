@@ -5,11 +5,13 @@
  * and packages. It also consists of the main routing logic required (GET, POST), alongside rendering files with EJS and with
  * necessary CRUD operations for both drivers and packages.
  * 
+ * @requires cors - To allow cross-origin requests.
  * @requires express - Handles server creation and routing.
  * @requires path - For handling file paths.
  * @requires mongoose - ODM library to interact with MongoDB.
  * @requires routes/driverRoutes - Routes for driver-related operations.
  * @requires routes/packageRoutes - Routes for package-related operations.
+ * 
  * @requires routes/authenticationRoutes - Routes for authentication-related operations.
  * @requires firebase-admin - Firebase Admin SDK to access Firestore.
  * @requires bcrypt - Used to encrypt user credentials.
@@ -39,8 +41,6 @@ const driverRoutes = require("./routes/driverRoutes");
 const packagesRoutes = require("./routes/packageRoutes");
 const authenticationRoutes = require('./routes/authenticationRoutes');
 const session = require('express-session');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const { checkAuthenticationAPI } = require('./middleware/authenticate');
 const driver = require('./models/driver');
 const package = require('./models/package');
@@ -48,10 +48,7 @@ const { Translate } = require('@google-cloud/translate').v2;
 const translate = new Translate();
 const textToSpeech = require("@google-cloud/text-to-speech");
 const textToSpeechClient = new textToSpeech.TextToSpeechClient();
-const axios = require('axios');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-
-const JWT_KEY = "secret_key_in_env";
 
 /**
  * Express app setup.
@@ -68,14 +65,17 @@ app.use(cors({
 /**
  * Connect to MongoDB and start the server.
  * Switch address to mongodb://localhost:27017/pdma if testing locally and mongo vm 
- * is not started
+ * is not started.
  */
 mongoose.connect('mongodb://localhost:27017/pdma')
     .then(() => {
+
+        // Express server setup
         const server = app.listen(PORT_NUMBER, () => {
             console.log(`Server is running on port ${PORT_NUMBER}`);
         })
         
+        // Socket.io setup
         const io = require('socket.io')(server, {
             cors: {
               origin: 'http://localhost:4200',
@@ -86,6 +86,7 @@ mongoose.connect('mongodb://localhost:27017/pdma')
         io.on('connection', (socket) => {
             console.log(`Connection established with ${socket.id}`);
         
+        // Socket.io event handlers for translate requests
         socket.on("translateRequest", async (data) => {
             const { description, targetLanguage } = data;
             try {
@@ -97,6 +98,7 @@ mongoose.connect('mongodb://localhost:27017/pdma')
             }
         });
 
+        // Socket.io event handlers for text-to-speech requests
         socket.on('textToSpeech', async (data) => {
             const request = {
                 input: { text: data.text },
@@ -113,6 +115,7 @@ mongoose.connect('mongodb://localhost:27017/pdma')
             }
         });
 
+        // Socket.io event handlers for calculating distance requests
         socket.on("calculateDistance", async ({ packageId, destination }) => {
             try {
               const distance = await calculateDistance('Melbourne', destination); 
@@ -123,6 +126,7 @@ mongoose.connect('mongodb://localhost:27017/pdma')
             }
           });
 
+        // Socket.io event handler for disconnect
         socket.on("disconnect", () => {
             console.log("User disconnected");
         });    
@@ -135,12 +139,6 @@ mongoose.connect('mongodb://localhost:27017/pdma')
  */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(session({
-    secret: '6x$eJ#zDqLpN7kM',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } 
-}));
 
 /**
  * Static files setup.
@@ -149,10 +147,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static("node_modules/bootstrap/dist/css"));
 app.use(express.static("node_modules/bootstrap/dist/js"));
 
-const generateJWTToken = (username) => {
-    return jwt.sign({ username }, JWT_KEY, {expiresIn: '24h'});
-}
-
+/**
+ * Helper method to calculate the distance given two locations.
+ * 
+ * @param {string} origin - Origin of the package.
+ * @param {string} destination - Destination of the package.
+ * 
+ * @returns {Promise<string>}
+ */
 async function calculateDistance(origin, destination) {
     const genAI = new GoogleGenerativeAI(process.env.API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -163,51 +165,14 @@ async function calculateDistance(origin, destination) {
     return result.response.text();
 }
 
-
-app.post('/api/v1/signup', async (req, res) => {
-    const { username, password, confirmPassword } = req.body;
-
-    try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        await db.collection('users').doc(username).set({
-            username,
-            password: hashedPassword
-        });
-
-        res.json({ message: "User signed up successfully." });
-    } catch (error) {
-        res.status(500).json({ error: "Error during signup: " + error.message });
-    }
-})
-
-app.post('/api/v1/login', async (req, res) => {
-    const { username, password } = req.body;
-
-    try {
-        const userDoc = await db.collection('users').doc(username).get();
-        if(!userDoc.exists){
-            return res.status(404).json({error: "User not found."});
-        }
-
-        const userData = userDoc.data();
-        const isMatch = await bcrypt.compare(password, userData.password);
-
-        if (!isMatch) {
-            return res.status(401).json({ error: "Incorrect password given. Please try again." });
-        }
-
-        const token = generateJWTToken(username);
-
-        res.json({
-            message: "Logged in successfully.", token
-        })
-    } catch (error) {
-        res.status(500).json({
-            error: "Error during login:" + error.message
-        });
-    }
-})
-
+/**
+ * GET method for retrieving driver and package count.
+ * 
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * 
+ * @returns {Promise<void>}
+ */
 app.use('/api/v1/count', async (req, res) => {
     try {
         const driverCount = await driver.countDocuments({});
@@ -222,18 +187,17 @@ app.use('/api/v1/count', async (req, res) => {
     }
 });
 
-
-
 /**
- * Use driver, packages and authentication routes.
+ * Use driver and packages routes.
  */
+app.use('/', authenticationRoutes);
 app.use('/', driverRoutes);
 app.use('/', packagesRoutes);
 
 /**
  * GET method for rendering statistics about CRUD operations.
  * 
- * @description Renders a message stating statistics about CRUD operations.
+ * @description Returns statistics about CRUD operation in json format.
  * 
  * @function
  * @param {Object} req - Express request object.
