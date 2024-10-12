@@ -49,9 +49,9 @@ const generateJWTToken = (username) => {
  router.post('/api/v1/signup', async (req, res) => {
      const { username, password, confirmPassword } = req.body;
 
-     if (password !== confirmPassword) {
-         return res.status(400).json({ error: "Password do not match." });
-     }
+    //  if (password !== confirmPassword) {
+    //      return res.status(400).json({ error: "Password do not match." });
+    //  }
 
      try {
          const hashedPassword = await bcrypt.hash(password, 10);
@@ -93,9 +93,9 @@ const generateJWTToken = (username) => {
         const userData = userDoc.data();
         const isMatch = await bcrypt.compare(password, userData.password);
 
-        //  if (!isMatch) {
-        //      return res.status(401).json({ error: "Incorrect password given. Please try again." });
-        //  }
+         if (!isMatch) {
+             return res.status(401).json({ error: "Incorrect password given. Please try again." });
+         }
 
          const token = generateJWTToken(username);
 
