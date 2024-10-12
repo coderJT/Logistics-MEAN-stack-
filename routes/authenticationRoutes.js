@@ -50,6 +50,8 @@ const generateJWTToken = (username) => {
      const { username, password, confirmPassword } = req.body;
 
      if (password !== confirmPassword) {
+        console.log(password);
+        console.log(confirmPassword);
          return res.status(400).json({ error: "Password do not match." });
      }
 
