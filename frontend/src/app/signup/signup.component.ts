@@ -30,8 +30,6 @@ export class SignupComponent {
       confirmPassword: this.confirmPassword
     };
 
-    console.log(credentials);
-
     this.authService.signUp(credentials).subscribe(
       (response: any) => {
         console.log('Signup successful');
