@@ -48,12 +48,10 @@ const generateJWTToken = (username) => {
   */
  router.post('/api/v1/signup', async (req, res) => {
      const { username, password, confirmPassword } = req.body;
-
+    console.log(password + " " + confirmPassword);
      if (password !== confirmPassword) {
          return res.status(400).json({ error: "Password do not match." });
-     }
-
-     console.log(req.body);
+     }  
 
      try {
 
