@@ -51,7 +51,6 @@ export class AuthenticationService {
   signUp(credentials: { username: string, password: string, confirmPassword: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/signup`, credentials);
   }
-
   logout(): Observable<void> {
     this.clearToken();
     this.router.navigate(['/login']);
