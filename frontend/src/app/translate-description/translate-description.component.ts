@@ -25,7 +25,7 @@ export class TranslateDescriptionComponent implements OnInit {
   ];
 
   constructor(private packageService: PackageService) {
-    this.socket = io('http://34.46.148.187 ');
+    this.socket = io('http://34.46.148.187');
   }
 
   ngOnInit(): void {
