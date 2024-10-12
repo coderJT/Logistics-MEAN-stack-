@@ -155,7 +155,7 @@ app.use(express.static("node_modules/bootstrap/dist/js"));
  * @returns {Promise<string>}
  */
 async function calculateDistance(origin, destination) {
-    const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+    const genAI = new GoogleGenerativeAI("AIzaSyCK296HAZk0BliEMzM5vWACY5DUtlKQ7gw");
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     
     const prompt = `What is the distance between ${origin} and ${destination}? Please provide the answer in km. You can use online tools to give me the correct answer. Only return the numbers, no text.`;

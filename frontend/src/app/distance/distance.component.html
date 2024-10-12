@@ -31,7 +31,7 @@
                 <td>
                   <button class="btn btn-danger" (click)="sendDestination(package._id, package.package_destination)">Distance</button>
                   @if (distance && selectedPackageId === package._id) {
-                    <h4>{{ distance }}</h4>
+                    <span class="badge bg-secondary ms-2">{{ distance }} km</span>
                   }
               </td>
               </tr>
