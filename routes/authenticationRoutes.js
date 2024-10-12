@@ -53,12 +53,14 @@ const generateJWTToken = (username) => {
          return res.status(400).json({ error: "Password do not match." });
      }
 
+     console.log(req.body);
+
      try {
 
          const existingUserDoc = await db.collection('users').doc(username).get();
          
          if (existingUserDoc.exists) {
-             return res.status(409).json({ error: "Username already exists. Please choose another username." });
+             return res.status(400).json({ error: "Username already exists. Please choose another username." });
          }
 
          await db.collection('users').doc(username).set({
@@ -71,7 +73,6 @@ const generateJWTToken = (username) => {
          res.status(500).json({ error: "Error during signup: " + error.message });
      }
  })
-
  /**
   * POST method to handle login request.
   * 
