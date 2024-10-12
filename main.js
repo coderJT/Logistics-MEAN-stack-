@@ -25,7 +25,7 @@ const admin = require('firebase-admin');
 
 admin.initializeApp({
     credential: admin.credential.applicationDefault(),
-    projectId: 'fit2095a2-afc60'
+    projectId: 'fit2095a3-e49e1'
 })
 
 const db = admin.firestore();
