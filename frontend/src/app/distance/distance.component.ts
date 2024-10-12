@@ -25,7 +25,7 @@ export class DistanceComponent {
   distance: number = 0;
 
   constructor(private packageService: PackageService) {
-    this.socket = io('http://34.46.148.187');
+    this.socket = io('http://34.46.148.187:8080');
 
     this.socket.on('distanceResult', (data: { packageId: string, distance: number }) => {
       if (data && data.packageId) {
