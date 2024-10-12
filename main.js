@@ -56,7 +56,7 @@ const app = express();
 const PORT_NUMBER = 8080; 
 
 app.use(cors({
-    origin: 'http://localhost:4200',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true 
 }));
@@ -66,7 +66,7 @@ app.use(cors({
  * Switch address to mongodb://localhost:27017/pdma if testing locally and mongo vm 
  * is not started.
  */
-mongoose.connect('mongodb://10.128.0.4/pdma')
+mongoose.connect('mongodb://localhost:27017/pdma')
     .then(() => {
 
         // Express server setup
