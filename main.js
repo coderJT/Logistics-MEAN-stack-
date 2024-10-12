@@ -40,7 +40,6 @@ const mongoose = require('mongoose');
 const driverRoutes = require("./routes/driverRoutes");
 const packagesRoutes = require("./routes/packageRoutes");
 const authenticationRoutes = require('./routes/authenticationRoutes');
-const session = require('express-session');
 const { checkAuthenticationAPI } = require('./middleware/authenticate');
 const driver = require('./models/driver');
 const package = require('./models/package');

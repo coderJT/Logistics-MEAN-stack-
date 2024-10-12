@@ -90,6 +90,12 @@ module.exports = {
     createOne: async function (req, res) {
         try {
             let data = req.body;
+
+            let driver = await Driver.findOne({ _id: data.driver_mongoose_id });
+
+            if (!driver)
+                return res.status(404).json({ error: "Driver with ID: " + data.driver_mongoose_id + " does not exist" });
+
             data.package_id = generatePackageID();
 
             let newPackage = new Package({
@@ -172,21 +178,26 @@ module.exports = {
         try {
             const _id = req.params.id;
 
-            let result = await Package.deleteOne({ _id: _id });
+            let package = await Package.findOneAndRemove({ _id: _id });
 
-            if (!result) {
+            if (!package) {
                 return res.status(404).json({ error: "Package not found" });
             }
+
+            await Driver.findOneAndUpdate(
+                { _id: package.driver_mongoose_id },
+                { $pull: { assigned_packages: package._id } }
+            );
 
             await incrementDelete();
 
             res.json({
-                acknowledged: result.acknowledged,
-                deletedCount: result.deletedCount
+                acknowledged: true,
+                deletedCount: 1
             });
 
         } catch (err) {
-            res.status(500).json({ error: "Failed to delete a package:: " + err.message });
+            res.status(500).json({ error: "Failed to delete a package: " + err.message });
         }
     }
 }

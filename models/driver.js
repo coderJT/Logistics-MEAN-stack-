@@ -33,6 +33,7 @@ const driverSchema = new mongoose.Schema({
      */
     driver_name: {
         type: String,
+        match: /^[a-zA-Z]+$/,
         required: [true, 'Driver name is required'],
         maxlength: [20, 'Driver name cannot exceed 20 characters'],
         minlength: [3, 'Driver name must be at least 3 characters long']
@@ -64,6 +65,7 @@ const driverSchema = new mongoose.Schema({
      */
     driver_license: {
         type: String,
+        match: /^[a-zA-Z0-9]+$/,
         required: [true, 'Driver license is required'],
         minlength: [5, 'Driver license must be exactly 5 characters'],
         maxlength: [5, 'Driver license must be exactly 5 characters']

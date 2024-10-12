@@ -30,6 +30,7 @@ const packageSchema = new mongoose.Schema({
      */
     package_title: {
         type: String,
+        match: /^[a-zA-Z0-9]+$/,
         required: [true, 'Package title is required'],
         minlength: [3, 'Package title must be at least 3 characters long'],
         maxlength: [15, 'Package title cannot exceed 15 characters']
@@ -63,6 +64,7 @@ const packageSchema = new mongoose.Schema({
      */
     package_destination: {
         type: String,
+        match: /^[a-zA-Z0-9]+$/,
         required: [true, 'Package destination is required'],
         minlength: [5, 'Package destination must be at least 5 characters long'],
         maxlength: [15, 'Package destination cannot exceed 15 characters']
