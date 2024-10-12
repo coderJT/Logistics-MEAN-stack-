@@ -56,7 +56,7 @@ const app = express();
 const PORT_NUMBER = 8080; 
 
 app.use(cors({
-    origin: '*',
+    origin: 'http://35.226.206.175:4200',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true 
 }));
