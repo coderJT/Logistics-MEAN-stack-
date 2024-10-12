@@ -66,7 +66,7 @@ app.use(cors({
  * Switch address to mongodb://localhost:27017/pdma if testing locally and mongo vm 
  * is not started.
  */
-mongoose.connect('mongodb://localhost:27017/pdma')
+mongoose.connect('mongodb://10.128.0.4/pdma')
     .then(() => {
 
         // Express server setup
