@@ -29,7 +29,7 @@ export class TextToSpeechComponent {
    */
   constructor(private driversDB: DriverService) {
 
-    this.socket = io('http://localhost:8080'); 
+    this.socket = io('http://10.128.0.3:8080'); 
 
     this.socket.on('speechResult', (data: { audioContent: string }) => {
       if (data.audioContent) {

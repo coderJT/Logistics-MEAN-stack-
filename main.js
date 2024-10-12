@@ -66,7 +66,7 @@ app.use(cors({
  * Switch address to mongodb://localhost:27017/pdma if testing locally and mongo vm 
  * is not started.
  */
-mongoose.connect('mongodb://localhost:27017/pdma')
+mongoose.connect('mongodb://10.128.0.4:27017/pdma')
     .then(() => {
 
         // Express server setup
@@ -77,7 +77,7 @@ mongoose.connect('mongodb://localhost:27017/pdma')
         // Socket.io setup
         const io = require('socket.io')(server, {
             cors: {
-              origin: 'http://localhost:4200',
+              origin: 'http://10.128.0.2:4200',
               methods: ['GET', 'POST', 'PUT', 'DELETE'],
               credentials: true
             }
