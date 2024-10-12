@@ -21,15 +21,13 @@ export class SignupComponent {
   onSubmit() {
     this.usernameExists = false;
     if (this.password !== this.confirmPassword) {
-      console.log(this.password);
-      console.log(this.confirmPassword)
-      alert("Passwords do not match!");  
       return;  
     }
 
     const credentials = {
       username: this.username,
       password: this.password,
+      confirmPassword: this.confirmPassword
     };
 
     this.authService.signUp(credentials).subscribe(
