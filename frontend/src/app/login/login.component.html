@@ -28,7 +28,13 @@
         <div class="d-flex">
           <a class="btn btn-secondary" [routerLink]="['/signup']">Sign Up</a>
         </div>
+  
+        <!-- Alert box -->
+         @if(invalidCredentials) {
+           <div class="alert alert-danger m-5" role="alert">
+             Invalid username or password.
+           </div>
+         }
       </div>
     </div>
   </div>
-  

@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 export class LoginComponent {
   username: string = "";
   password: string = "";
+  invalidCredentials: boolean = false;
 
   /**
    * 
@@ -36,6 +37,7 @@ export class LoginComponent {
    * @returns {void}
    */
   onSubmit(): void {
+    this.invalidCredentials = false;
     this.authService.login({username: this.username, password: this.password}).subscribe(
       (response) => {
         this.authService.setToken(response.token);
@@ -43,6 +45,7 @@ export class LoginComponent {
       },
       error => {
         console.error("Login failed", error);
+        this.invalidCredentials = true;
       }
     )
   }
