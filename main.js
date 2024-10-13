@@ -70,14 +70,14 @@ mongoose.connect('mongodb://localhost:27017/pdma')
     .then(() => {
 
         // Express server setup
-        const server = app.listen(PORT_NUMBER, () => {
+        const server = app.listen(PORT_NUMBER, '0.0.0.0', () => {
             console.log(`Server is running on port ${PORT_NUMBER}`);
         })
         
         // Socket.io setup
         const io = require('socket.io')(server, {
             cors: {
-              origin: 'http://localhost:4200',
+              origin: 'http://10.148.0.2:4200',
               methods: ['GET', 'POST', 'PUT', 'DELETE'],
               credentials: true
             }
