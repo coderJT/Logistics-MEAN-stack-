@@ -56,7 +56,7 @@ const app = express();
 const PORT_NUMBER = 8080; 
 
 app.use(cors({
-    origin: 'http://35.239.234.185:4200',
+    origin: 'http://localhost:4200',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true 
 }));
@@ -77,7 +77,7 @@ mongoose.connect('mongodb://10.128.0.4:27017/pdma')
         // Socket.io setup
         const io = require('socket.io')(server, {
             cors: {
-              origin: 'http://35.239.234.185:4200',
+              origin: 'http://localhost:4200',
               methods: ['GET', 'POST', 'PUT', 'DELETE'],
               credentials: true
             }
