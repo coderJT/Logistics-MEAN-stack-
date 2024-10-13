@@ -70,7 +70,7 @@ mongoose.connect('mongodb://localhost:27017/pdma')
     .then(() => {
 
         // Express server setup
-        const server = app.listen(PORT_NUMBER, '0.0.0.0', () => {
+        const server = app.listen(PORT_NUMBER, () => {
             console.log(`Server is running on port ${PORT_NUMBER}`);
         })
         
