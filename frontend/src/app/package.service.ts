@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class PackageService {
 
-  private apiUrl = 'http://10.148.0.2:8080/api/v1/packages'; 
+  private apiUrl = 'http://localhost:8080/api/v1/packages'; 
 
   constructor(private http: HttpClient, private authentication: AuthenticationService) { }
 
