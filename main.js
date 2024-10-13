@@ -142,7 +142,7 @@ app.use(express.urlencoded({ extended: true }));
 /**
  * Static files setup.
  */
-app.use("/", express.static(path.join(__dirname, "dist/frontend")));
+app.use("/", express.static(path.join(__dirname, "frontend/dist/frontend")));
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static("node_modules/bootstrap/dist/css"));
 app.use(express.static("node_modules/bootstrap/dist/js"));
