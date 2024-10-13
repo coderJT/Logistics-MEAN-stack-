@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 
 export class AuthenticationService {
 
-  private apiUrl = 'http://10.148.0.2:8080/api/v1';
+  private apiUrl = 'http://34.143.184.233:8080/api/v1';
 
   private loggedInSubject = new BehaviorSubject<boolean>(this.isTokenAvailable());
 
