@@ -14,7 +14,7 @@ import { AuthenticationService } from './authentication.service';
  */
 export class StatisticsService {
 
-  private apiUrl = 'http://localhost:8080/api/v1/statistics';
+  private apiUrl = 'http://34.143.184.233:8080/api/v1/statistics';
 
   /**
    * Constructor that injects the AuthenticationService for handling authentication-related operations,

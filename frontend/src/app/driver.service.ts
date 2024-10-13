@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class DriverService {
 
-  private apiUrl = 'http://localhost:8080/api/v1/drivers';
+  private apiUrl = 'http://34.143.184.233:8080/api/v1/drivers';
 
   constructor(private http: HttpClient, private authentication: AuthenticationService) { }
 
