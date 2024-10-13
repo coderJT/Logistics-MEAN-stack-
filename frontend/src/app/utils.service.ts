@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
  */
 export class UtilsService {
 
-  private apiUrl = "http://localhost:8080/api/v1/count";
+  private apiUrl = "http://http://35.187.241.193:8080/api/v1/count";
   
   /**
    * Constructor that injects the HttpClient for making HTTP requests.
