@@ -77,7 +77,7 @@ mongoose.connect('mongodb://localhost:27017/pdma')
         // Socket.io setup
         const io = require('socket.io')(server, {
             cors: {
-              origin: 'http://10.148.0.2:4200',
+              origin: 'http://localhost:4200',
               methods: ['GET', 'POST', 'PUT', 'DELETE'],
               credentials: true
             }
