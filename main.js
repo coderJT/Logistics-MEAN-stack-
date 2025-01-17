@@ -25,7 +25,7 @@ const admin = require('firebase-admin');
 
 admin.initializeApp({
     credential: admin.credential.applicationDefault(),
-    projectId: 'fit2095a3-438405'
+    projectId: process.env.FIREBASE_PROJECT_ID
 })
 
 const db = admin.firestore();
@@ -48,6 +48,7 @@ const translate = new Translate();
 const textToSpeech = require("@google-cloud/text-to-speech");
 const textToSpeechClient = new textToSpeech.TextToSpeechClient();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const dotenv = require('dotenv').config();
 
 /**
  * Express app setup.

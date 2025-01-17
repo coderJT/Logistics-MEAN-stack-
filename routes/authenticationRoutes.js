@@ -28,7 +28,8 @@ const bcrypt = require('bcrypt');
 
 // Import JWT library
 const jwt = require('jsonwebtoken');
-const JWT_KEY = "secret_key_in_env";
+const dotenv = require('dotenv').config();
+const JWT_KEY = process.env.JWT_SECRET_KEY
 
 const generateJWTToken = (username) => {
     return jwt.sign({ username }, JWT_KEY, {expiresIn: '24h'});

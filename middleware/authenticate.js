@@ -7,8 +7,8 @@
  */
 
 const jwt = require('jsonwebtoken');
-const JWT_KEY = "secret_key_in_env"; // remove later
-
+const dotenv = require('dotenv').config();
+const JWT_KEY = process.env.JWT_SECRET_KEY;
 /**
  * Middleware function to check user authentication through API.
  * 
